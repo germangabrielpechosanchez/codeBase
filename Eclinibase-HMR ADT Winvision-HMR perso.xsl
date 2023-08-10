@@ -42,7 +42,7 @@
          </xsl:choose>
          
          <xsl:choose>
-            <xsl:when test="not(($messageType = 'A48' and $eventCode = '215') or $messageType='A08')">
+            <xsl:when test="not(($messageType = 'A48' and $eventCode = '215') or $messageType='A08' or $messageType='A01')">
                <xsl:call-template name="MRG"/>
             </xsl:when> 
          </xsl:choose>
@@ -132,6 +132,10 @@
       <xsl:element name="PV1">
          <xsl:element name="PV1.1.1">
             <xsl:value-of select="substring(/HL7/PV1/PV1.1.1,4,4)"/>
+         </xsl:element>
+         
+         <xsl:element name="PV1.2.1">
+            <xsl:value-of select="/HL7/PV1/PV1.2.1"/>
          </xsl:element>
          
          <xsl:variable name="unitSoins" select="/HL7/PV1/PV1.3.1" />
@@ -317,6 +321,10 @@
                <xsl:when test= "$unitSoins = 'CMS'">  
                   <xsl:value-of select="'CMS&amp;CMS-Clin. méd. spécialisée'"/> 
                </xsl:when>
+               
+               <xsl:otherwise>  
+                  <xsl:value-of select="concat($unitSoins,'&amp;','Description non définie')"/> 
+               </xsl:otherwise> 
             </xsl:choose>
          </xsl:element> 
          
