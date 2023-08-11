@@ -189,6 +189,10 @@
                <xsl:value-of select="'MR'"/>
             </xsl:element> 
             
+            <xsl:element name="PID.3.8">
+               <xsl:value-of select="/HL7/ZI1/ZI1.21.1"/>
+            </xsl:element> 
+            
             <xsl:element name="PID.5.1">
                <xsl:value-of select="/HL7/PID/PID.5.1"/>
             </xsl:element> 
@@ -220,8 +224,16 @@
                <xsl:value-of select="/HL7/PID/PID.8.1"/>
             </xsl:element> 
             
+            <xsl:element name="PID.9.1">
+               <xsl:value-of select="/HL7/PID/PID.9.1"/>
+            </xsl:element> 
+            
+            <xsl:element name="PID.9.2">
+               <xsl:value-of select="/HL7/PID/PID.9.2"/>
+            </xsl:element> 
+            
             <xsl:element name="PID.11.1">
-               <xsl:value-of select="/HL7/PID/PID.11.1"/>
+               <xsl:value-of select="/HL7/PID/P9ID.11.1"/>
             </xsl:element> 
             
             <xsl:element name="PID.11.2">
@@ -268,17 +280,20 @@
                <xsl:value-of select="'PH'"/>
             </xsl:element>
             
-            <xsl:element name="PID.14.1">
-               <xsl:value-of select="concat('(',/HL7/PID/PID.14.6,')','-',/HL7/PID/PID.14.7)"/>
-            </xsl:element> 
-            
-            <xsl:element name="PID.14.2">
-               <xsl:value-of select="/HL7/PID/PID.14.2"/>
-            </xsl:element> 
-            
-            <xsl:element name="PID.14.3">
-               <xsl:value-of select="'PH'"/>
-            </xsl:element>
+            <xsl:variable name="areaCityCode" select="/HL7/PID/PID.14.6" />  
+           <xsl:if test="($areaCityCode != '')"> 
+                <xsl:element name="PID.14.1">
+                   <xsl:value-of select="concat('(',$areaCityCode,')','-',/HL7/PID/PID.14.7)"/>
+                </xsl:element> 
+                
+                <xsl:element name="PID.14.2">
+                   <xsl:value-of select="/HL7/PID/PID.14.2"/>
+                </xsl:element> 
+        
+                <xsl:element name="PID.14.3">
+                    <xsl:value-of select="'PH'"/>
+                </xsl:element>
+           </xsl:if>  
             
              <xsl:choose>
                 <xsl:when test="/HL7/PID/PID.16.1 = '1'">
@@ -330,9 +345,11 @@
       </xsl:template>    
           
       <xsl:template name="NK1">    
-               <xsl:for-each select="/HL7/NK1">
-                  <xsl:element name="NK1"> 
-                  
+         <xsl:for-each select="/HL7/NK1">
+             
+              <xsl:variable name="familyMember" select="./NK1.2.1" />  
+              <xsl:if test="($familyMember != '')">                  
+               <xsl:element name="NK1">       
                   <xsl:element name="NK1.1.1">
                       <xsl:value-of select="substring(./NK1.1.1,4,4)"/>
                   </xsl:element>
@@ -345,7 +362,7 @@
                      <xsl:value-of select="./NK1.2.2"/>
                   </xsl:element> 
                      
-                     <xsl:choose> 
+                     <xsl:choose>        
                         <xsl:when test="substring(./NK1.1.1,4,4) = '1'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'FTH'"/> 
@@ -373,10 +390,11 @@
                         <xsl:when test="substring(./NK1.1.1,4,4) = '5'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'EMR'"/> 
-                           </xsl:element>     
-                        </xsl:when>
-                     </xsl:choose>    
+                           </xsl:element>   
+                        </xsl:when>    
+                     </xsl:choose>
                   </xsl:element> 
+               </xsl:if>
                </xsl:for-each> 
       </xsl:template>
       

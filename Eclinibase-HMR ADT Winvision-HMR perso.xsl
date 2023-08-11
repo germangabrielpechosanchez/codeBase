@@ -42,7 +42,7 @@
          </xsl:choose>
          
          <xsl:choose>
-            <xsl:when test="not(($messageType = 'A48' and $eventCode = '215') or $messageType='A08' or $messageType='A01')">
+            <xsl:when test="not(($messageType = 'A48' and $eventCode = '215') or $messageType='A08' or $messageType='A01' or $messageType='A02')">
                <xsl:call-template name="MRG"/>
             </xsl:when> 
          </xsl:choose>
@@ -328,76 +328,77 @@
             </xsl:choose>
          </xsl:element> 
          
-         <xsl:variable name="roomPavillon" select="substring(/HL7/PV1/PV1.3.2,1,1)" />
+         <xsl:variable name="roomPatient" select="/HL7/PV1/PV1.3.2" />
+         <xsl:variable name="roomPavillon" select="substring($roomPatient,1,1)" />
          
          <xsl:element name="PV1.3.2">         
             <xsl:choose>        
-            <xsl:when test="/HL7/PV1/PV1.3.2 = 'M01090'">
+               <xsl:when test="$roomPatient = 'M01090'">
                   <xsl:value-of select="'M 1090'"/>
             </xsl:when>
                
-            <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M01080'">
+               <xsl:when test="$roomPatient = 'M01080'">
                   <xsl:value-of select="'M 1080'"/>
            </xsl:when>
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00990'">
+               <xsl:when test="$roomPatient = 'M00990'">
                   <xsl:value-of select="'M 0990'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00980'">
+               <xsl:when test="$roomPatient = 'M00980'">
                   <xsl:value-of select="'M 0980'"/>
            </xsl:when>
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00780'">
+               <xsl:when test="$roomPatient = 'M00780'">
                  <xsl:value-of select="'M 0780'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00690'">
+               <xsl:when test="$roomPatient = 'M00690'">
                  <xsl:value-of select="'M 0690'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00680'">
+               <xsl:when test="$roomPatient = 'M00680'">
                 <xsl:value-of select="'M 0680'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00580'">
+               <xsl:when test="$roomPatient = 'M00580'">
                 <xsl:value-of select="'M 0580'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00490'">
+               <xsl:when test="$roomPatient = 'M00490'">
                 <xsl:value-of select="'M 0490'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00480'">
+               <xsl:when test="$roomPatient = 'M00480'">
                 <xsl:value-of select="'M 0480'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00470'">
+               <xsl:when test="$roomPatient= 'M00470'">
                   <xsl:value-of select="'M 0480'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00380'">
+               <xsl:when test="$roomPatient = 'M00380'">
                 <xsl:value-of select="'M 0470'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00470'">
+               <xsl:when test="$roomPatient = 'M00470'">
                 <xsl:value-of select="'M 0470'"/>
            </xsl:when> 
                 
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00180'">
+               <xsl:when test="$roomPatient = 'M00180'">
                 <xsl:value-of select="'M 0180'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00638'">
+               <xsl:when test="$roomPatient = 'M00638'">
                 <xsl:value-of select="'M 0638'"/>
            </xsl:when> 
                
-           <xsl:when test="/HL7/PV1.3.2/PV1.3.2 = 'M00653'">
+               <xsl:when test="$roomPatient = 'M00653'">
                 <xsl:value-of select="'M 0653'"/>
            </xsl:when> 
                
             <xsl:otherwise>
-               <xsl:value-of select="concat(concat($roomPavillon,' '), substring(/HL7/PV1/PV1.3.2,2))"/> 
+               <xsl:value-of select="concat(concat($roomPavillon,' '), substring($roomPatient,2))"/> 
             </xsl:otherwise>
             </xsl:choose>         
          </xsl:element>
