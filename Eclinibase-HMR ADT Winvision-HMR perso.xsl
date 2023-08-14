@@ -422,11 +422,31 @@
                </xsl:when>
                
                <xsl:otherwise>  
-                  <xsl:value-of select="concat('MA','&amp;','Pavillon Autre')"/> 
+                  <xsl:value-of select="concat('AU','&amp;','Pavillon Autre')"/> 
                </xsl:otherwise> 
             </xsl:choose>
          </xsl:element>   
-    
+         
+         <xsl:element name="PV1.4.1">
+            <xsl:value-of select="/HL7/PV1/PV1.4.1"/> 
+         </xsl:element>
+         
+         <xsl:element name="PV1.7.1">
+            <xsl:value-of select="/HL7/PV1/PV1.7.1"/> 
+         </xsl:element>
+         
+         <xsl:element name="PV1.7.2">
+            <xsl:value-of select="substring-before(/HL7/PV1/PV1.7.2,',')"/> 
+         </xsl:element>
+         
+         <xsl:element name="PV1.7.3">
+            <xsl:value-of select="substring-after(/HL7/PV1/PV1.7.2,',')"/> 
+         </xsl:element>
+         
+         <xsl:element name="PV1.7.7">
+            <xsl:value-of select="'MD'"/> 
+         </xsl:element>
+         
          <xsl:variable name="hospitalService" select="/HL7/PV1/PV1.10.1" />
         
          <xsl:element name="PV1.10.1">
@@ -903,6 +923,10 @@
                   <xsl:value-of select="'ADM. JUDICIAIRE'"/> 
                </xsl:when>      
             </xsl:choose>
+         </xsl:element> 
+         
+         <xsl:element name="PV1.16.1">
+            <xsl:value-of select="'0'"/> 
          </xsl:element> 
             
          <xsl:element name="PV1.17.1">

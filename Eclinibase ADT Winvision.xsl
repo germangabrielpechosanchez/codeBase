@@ -233,7 +233,7 @@
             </xsl:element> 
             
             <xsl:element name="PID.11.1">
-               <xsl:value-of select="/HL7/PID/P9ID.11.1"/>
+               <xsl:value-of select="/HL7/PID/PID.11.1"/>
             </xsl:element> 
             
             <xsl:element name="PID.11.2">
@@ -248,17 +248,21 @@
                <xsl:value-of select="/HL7/PID/PID.11.4"/>
             </xsl:element> 
             
-            <xsl:element name="PID.11.5">
+           <xsl:element name="PID.11.5">
                <xsl:value-of select="/HL7/PID/PID.11.5"/>
             </xsl:element> 
             
-            <xsl:element name="PID.11.6">
+            <!-- <xsl:element name="PID.11.6">
                <xsl:value-of select="/HL7/PID/PID.11.6"/>
-            </xsl:element> 
+            </xsl:element> -->
+            
+            <!--   <xsl:element name="PID.11.7">
+               <xsl:value-of select="/HL7/PID/PID.11.7"/>
+            </xsl:element> -->
             
             <xsl:element name="PID.11.7">
-               <xsl:value-of select="/HL7/PID/PID.11.7"/>
-            </xsl:element> 
+               <xsl:value-of select="'H'"/>
+            </xsl:element>
             
             <xsl:element name="PID.11.8">
                <xsl:value-of select="/HL7/PID/PID.11.8"/>
