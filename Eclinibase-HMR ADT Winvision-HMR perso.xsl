@@ -994,6 +994,9 @@
          </xsl:element>
       </xsl:element> 
       
+      <xsl:variable name="diagnosisSegment" select="/HL7/DG1/DG1.3.2" />
+      
+      <xsl:if test="($diagnosisSegment != '')"> 
       <xsl:element name="PV2">
           <xsl:element name="PV2.1.1">
              <xsl:value-of select="substring(/HL7/PV2/PV2.1.1,4,4)"/>
@@ -1003,19 +1006,26 @@
              <xsl:value-of select="/HL7/DG1/DG1.3.2"/>
           </xsl:element> 
       </xsl:element>
+     </xsl:if> 
    </xsl:template>
    
+   <xsl:variable name="mergePatientInformation" select="/HL7/MRG/MRG.2.1" />
+   
+   
    <xsl:template name="MRG">
+      <xsl:if test="($mergePatientInformation != '')"> 
       <xsl:element name="MRG"> 
          <xsl:element name="MRG.1.1">
-         <xsl:value-of select="/HL7/MRG/MRG.2.1"/>
+            <xsl:value-of select="$mergePatientInformation"/>
          </xsl:element>
          
          <xsl:element name="MRG.1.4.1">
             <xsl:value-of select="'HMR'"/>
          </xsl:element>
       </xsl:element>
+    </xsl:if> 
    </xsl:template>
+    
    
    <xsl:template name="ZPV">
       <xsl:element name="ZPV">
