@@ -42,7 +42,7 @@
             <xsl:call-template name="EVN"/>  
             <xsl:call-template name="PID"/>
             <xsl:call-template name="NK1"/>
-      </xsl:template> -->
+      </xsl:template> --> 
       
       <xsl:template name="MSH">
          <xsl:element name="MSH">
@@ -251,15 +251,7 @@
            <xsl:element name="PID.11.5">
                <xsl:value-of select="/HL7/PID/PID.11.5"/>
             </xsl:element> 
-            
-            <!-- <xsl:element name="PID.11.6">
-               <xsl:value-of select="/HL7/PID/PID.11.6"/>
-            </xsl:element> -->
-            
-            <!--   <xsl:element name="PID.11.7">
-               <xsl:value-of select="/HL7/PID/PID.11.7"/>
-            </xsl:element> -->
-            
+         
             <xsl:element name="PID.11.7">
                <xsl:value-of select="'H'"/>
             </xsl:element>
@@ -347,15 +339,14 @@
    
             </xsl:element>    
       </xsl:template>    
-          
+        
       <xsl:template name="NK1">    
-         <xsl:for-each select="/HL7/NK1">
-             
-              <xsl:variable name="familyMember" select="./NK1.2.1" />  
-              <xsl:if test="($familyMember != '')">                  
-               <xsl:element name="NK1">       
+         <xsl:for-each select="/HL7/NK1[./NK1.2.1!='']">
+            
+               <xsl:element name="NK1">
+                  
                   <xsl:element name="NK1.1.1">
-                      <xsl:value-of select="substring(./NK1.1.1,4,4)"/>
+                     <xsl:value-of select="position()"/> 
                   </xsl:element>
                                     
                   <xsl:element name="NK1.2.1">
@@ -365,44 +356,45 @@
                   <xsl:element name="NK1.2.2">
                      <xsl:value-of select="./NK1.2.2"/>
                   </xsl:element> 
-                     
+                  
+                  <xsl:variable name="setID" select="./NK1.1.1" /> 
+                  
                      <xsl:choose>        
-                        <xsl:when test="substring(./NK1.1.1,4,4) = '1'">
+                        <xsl:when test="substring(./$setID,4,4) = '1'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'FTH'"/> 
-                           </xsl:element>     
+                           </xsl:element>   
                         </xsl:when>
                         
-                        <xsl:when test="substring(./NK1.1.1,4,4) = '2'">
+                        <xsl:when test="substring(./$setID,4,4) = '2'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'SPO'"/> 
                            </xsl:element>     
                         </xsl:when>
                         
-                        <xsl:when test="substring(./NK1.1.1,4,4) = '3'">
+                        <xsl:when test="substring(./$setID,4,4) = '3'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'EMC'"/> 
                            </xsl:element>     
                         </xsl:when>
                         
-                        <xsl:when test="substring(./NK1.1.1,4,4) = '4'"> 
+                        <xsl:when test="substring(./$setID,4,4) = '4'"> 
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'MTH'"/> 
                            </xsl:element>  
                         </xsl:when>
                         
-                        <xsl:when test="substring(./NK1.1.1,4,4) = '5'">
+                        <xsl:when test="substring(./$setID,4,4) = '5'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'EMR'"/> 
                            </xsl:element>   
                         </xsl:when>    
-                     </xsl:choose>
+                     </xsl:choose>     
                   </xsl:element> 
-               </xsl:if>
-               </xsl:for-each> 
+             
+          </xsl:for-each>      
       </xsl:template>
-      
- 
+         
       <xsl:template match="@* | node()">
          <xsl:copy>
             <xsl:apply-templates select="@* | node()"/>

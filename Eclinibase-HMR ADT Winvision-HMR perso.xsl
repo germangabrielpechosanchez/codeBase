@@ -428,7 +428,7 @@
          </xsl:element>   
          
          <xsl:element name="PV1.4.1">
-            <xsl:value-of select="/HL7/PV1/PV1.4.1"/> 
+            <xsl:value-of select="/HL7/PV1/PV1.18.1"/> 
          </xsl:element>
          
          <xsl:element name="PV1.7.1">
@@ -1038,6 +1038,7 @@
       <xsl:element name="ZPV.11.2">
          <xsl:value-of select="/HL7/ZV1/ZV1.3.1"/> 
       </xsl:element>
+         
       </xsl:element>
    </xsl:template>
    
