@@ -165,17 +165,21 @@
                <xsl:value-of select="number(/HL7/PID/PID.1.1)"/>
             </xsl:element>
             
+            <xsl:variable name="patientId" select="/HL7/ZI1/ZI1.2.1" />
+            
             <xsl:element name="PID.2.1">
-               <xsl:value-of select="/HL7/ZI1/ZI1.2.1"/>
+               <xsl:value-of select="$patientId"/>
             </xsl:element>     
             
+            <xsl:if test="($patientId != '')"> 
             <xsl:element name="PID.2.5">
                <xsl:value-of select="'NAM'"/>
             </xsl:element>     
             
             <xsl:element name="PID.2.8">
                <xsl:value-of select="concat(/HL7/ZI1/ZI1.5.1,'28')"/>
-            </xsl:element>     
+            </xsl:element>  
+            </xsl:if>  
             
             <xsl:element name="PID.3.1">
                <xsl:value-of select="/HL7/PID/PID.4.1[1]"/>
