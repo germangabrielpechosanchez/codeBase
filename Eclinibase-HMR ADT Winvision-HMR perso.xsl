@@ -122,12 +122,6 @@
       </xsl:element>
    </xsl:template>
   
-   <xsl:variable name="uniteSoins">
-      <entry key="M10C" select="'M10C&gt;Gériatrie'"/>
-      <entry key="M1CA" select="'M1CA&gt;Chirurgie CSA'"/>
-      <entry key="M10S" select="'M10S&gt; COURT-SÉJOUR'"/>
-   </xsl:variable>
-  
    <xsl:template name="PV1">
       <xsl:element name="PV1">
          <xsl:element name="PV1.1.1">
@@ -1011,7 +1005,6 @@
    
    <xsl:variable name="mergePatientInformation" select="/HL7/MRG/MRG.2.1" />
    
-   
    <xsl:template name="MRG">
       <xsl:if test="($mergePatientInformation != '')"> 
       <xsl:element name="MRG"> 
@@ -1026,15 +1019,33 @@
     </xsl:if> 
    </xsl:template>
     
+   <xsl:variable name="citizenship" select="/HL7/PID/PID.26.1" />
    
    <xsl:template name="ZPV">
       <xsl:element name="ZPV">
+         
       <xsl:element name="ZPV.2.1">
-         <xsl:value-of select="'0'"/>
+         <xsl:choose>
+              <xsl:when test="($citizenship = '')"> 
+              <xsl:value-of select="'0'"/>
+              </xsl:when> 
+            
+            <xsl:when test="($citizenship = '2')"> 
+               <xsl:value-of select="'2'"/>
+            </xsl:when> 
+         </xsl:choose>
       </xsl:element>
       
       <xsl:element name="ZPV.2.2">
-         <xsl:value-of select="'CANADA'"/>
+         <xsl:choose>
+            <xsl:when test="($citizenship = '')"> 
+             <xsl:value-of select="'CANADA'"/>
+            </xsl:when> 
+            
+            <xsl:when test="($citizenship = '2')"> 
+               <xsl:value-of select="'IMMIGRANT RECU'"/>
+            </xsl:when> 
+         </xsl:choose>
       </xsl:element>     
       
       <xsl:element name="ZPV.4.1">

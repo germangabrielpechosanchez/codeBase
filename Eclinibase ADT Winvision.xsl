@@ -282,6 +282,7 @@
             
             <xsl:variable name="areaCityCode" select="/HL7/PID/PID.14.6" />  
            <xsl:if test="($areaCityCode != '')"> 
+              
                 <xsl:element name="PID.14.1">
                    <xsl:value-of select="concat('(',$areaCityCode,')','-',/HL7/PID/PID.14.7)"/>
                 </xsl:element> 
@@ -294,6 +295,15 @@
                     <xsl:value-of select="'PH'"/>
                 </xsl:element>
            </xsl:if>  
+            
+            <xsl:element name="PID.15.1">
+               <xsl:value-of select="/HL7/PID/PID.15.1"/>
+            </xsl:element> 
+            
+            <xsl:element name="PID.15.2">
+               <xsl:value-of select="/HL7/PID/PID.15.2"/>
+            </xsl:element>          
+            
             
              <xsl:choose>
                 <xsl:when test="/HL7/PID/PID.16.1 = '1'">
