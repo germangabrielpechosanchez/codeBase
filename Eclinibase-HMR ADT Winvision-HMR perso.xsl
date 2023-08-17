@@ -132,7 +132,17 @@
             <xsl:value-of select="/HL7/PV1/PV1.2.1"/>
          </xsl:element>
          
-         <xsl:variable name="unitSoins" select="/HL7/PV1/PV1.3.1" />
+         <xsl:variable name="unitSoins">
+         <xsl:choose> 
+            <xsl:when test="($messageType != 'A12')"> 
+               <xsl:value-of select="/HL7/PV1/PV1.3.1"/>
+            </xsl:when>   
+            
+            <xsl:otherwise> 
+               <xsl:value-of select="/HL7/PV1/PV1.6.1"/>
+            </xsl:otherwise>    
+         </xsl:choose>
+      </xsl:variable>  
         
          <xsl:element name="PV1.3.1">
             <xsl:choose> 
