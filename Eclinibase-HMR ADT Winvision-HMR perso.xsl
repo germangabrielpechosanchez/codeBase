@@ -1007,7 +1007,7 @@
           </xsl:element>
           
           <xsl:element name="PV2.3.1">
-             <xsl:value-of select="/HL7/DG1/DG1.3.2"/>
+             <xsl:value-of select="$diagnosisSegment"/>
           </xsl:element> 
       </xsl:element>
      </xsl:if> 
