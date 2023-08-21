@@ -332,7 +332,18 @@
             </xsl:choose>
          </xsl:element> 
          
-         <xsl:variable name="roomPatient" select="/HL7/PV1/PV1.3.2" />
+         <xsl:variable name="roomPatient">
+            <xsl:choose> 
+               <xsl:when test="($messageType != 'A12')"> 
+                   <xsl:value-of select="/HL7/PV1/PV1.3.2" />
+               </xsl:when>
+               
+               <xsl:otherwise> 
+                  <xsl:value-of select="/HL7/PV1/PV1.6.2"/>
+               </xsl:otherwise>      
+              </xsl:choose>
+         </xsl:variable>
+         
          <xsl:variable name="roomPavillon" select="substring($roomPatient,1,1)" />
          
          <xsl:element name="PV1.3.2">         
@@ -407,8 +418,17 @@
             </xsl:choose>         
          </xsl:element>
          
+         
          <xsl:element name="PV1.3.3">
-            <xsl:value-of select="substring-after(/HL7/PV1/PV1.3.3,'-')"/> 
+            <xsl:choose> 
+               <xsl:when test="($messageType != 'A12')"> 
+                   <xsl:value-of select="substring-after(/HL7/PV1/PV1.3.3,'-')"/> 
+               </xsl:when>
+               
+               <xsl:otherwise>
+                  <xsl:value-of select="substring-after(/HL7/PV1/PV1.6.3,'-')"/>
+               </xsl:otherwise>
+            </xsl:choose>       
          </xsl:element>
          
          <xsl:element name="PV1.3.4">
