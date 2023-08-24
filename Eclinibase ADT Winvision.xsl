@@ -87,14 +87,10 @@
          
          <xsl:element name="MSH.9.2">  
             <xsl:choose>
-                <xsl:when test="$messageType = 'A48' and $eventCode = '215'">  
+                <xsl:when test="$messageType = 'A48'">  
                      <xsl:value-of select="'A28'"/>
                 </xsl:when>   
        
-               <xsl:when test="$messageType = 'A48' and $eventCode = '119'">  
-                     <xsl:value-of select="'A46'"/>
-               </xsl:when>   
-               
                <xsl:when test="$messageType = 'A23'">  
                      <xsl:value-of select="'A11'"/>
                </xsl:when>   
@@ -102,6 +98,7 @@
                 <xsl:otherwise>
                      <xsl:value-of select="$messageType"/>
                 </xsl:otherwise>
+               
             </xsl:choose>
          </xsl:element>
          
@@ -130,12 +127,8 @@
       <xsl:element name="EVN.1.1">    
          
          <xsl:choose>
-            <xsl:when test="$messageType = 'A48' and $eventCode = '215'">  
+            <xsl:when test="$messageType = 'A48'">  
                <xsl:value-of select="'A28'"/>
-            </xsl:when>   
-            
-            <xsl:when test="$messageType = 'A48' and $eventCode = '119'">  
-               <xsl:value-of select="'A46'"/>
             </xsl:when>   
             
             <xsl:when test="$messageType = 'A23'">  

@@ -42,7 +42,7 @@
          </xsl:choose>
          
          <xsl:choose>
-            <xsl:when test="not(($messageType = 'A48' and $eventCode = '215') or $messageType='A08' or $messageType='A01' or $messageType='A02')">
+            <xsl:when test="not(($messageType = 'A48') or $messageType='A08' or $messageType='A01' or $messageType='A02')">
                <xsl:call-template name="MRG"/>
             </xsl:when> 
          </xsl:choose>
