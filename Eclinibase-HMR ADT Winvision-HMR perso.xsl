@@ -1006,7 +1006,26 @@
          </xsl:element> 
          
          <xsl:element name="PV1.19.1">   
-            <xsl:value-of select="/HL7/PV1/PV1.19.1"/> 
+            <xsl:variable name="visitNumber" select="/HL7/PV1/PV1.19.1" />
+            <xsl:choose>
+               
+               <xsl:when test="substring($visitNumber,1,4) ='2010'">  
+                  <xsl:value-of select="concat(substring($visitNumber,3,2), substring($visitNumber,6,5))"/> 
+               </xsl:when>    
+               
+               <xsl:when test="substring($visitNumber,1,4) ='2011'">  
+                  <xsl:value-of select="concat(substring($visitNumber,3,2), substring($visitNumber,6,5))"/> 
+               </xsl:when>    
+               
+               <xsl:when test="substring($visitNumber,1,4) ='2012'">  
+                  <xsl:value-of select="concat(substring($visitNumber,3,2), substring($visitNumber,6,5))"/> 
+               </xsl:when>  
+               
+               <xsl:otherwise>  
+                  <xsl:value-of select="$visitNumber"/> 
+               </xsl:otherwise>
+               
+            </xsl:choose>
          </xsl:element> 
   
          <xsl:element name="PV1.20.1">   

@@ -36,14 +36,6 @@
       <!-- this is the identity transform: it copies everything that isn't matched by a more specific template -->
       <!-- recopie de tous les élements (node=balise, @=attribut) -->
       
-      <!--      <xsl:template match="/">
-         <xsl:element name="HL7">
-            <xsl:call-template name="MSH"/>
-            <xsl:call-template name="EVN"/>  
-            <xsl:call-template name="PID"/>
-            <xsl:call-template name="NK1"/>
-      </xsl:template> --> 
-      
       <xsl:template name="MSH">
          <xsl:element name="MSH">
          </xsl:element>
@@ -186,8 +178,13 @@
                <xsl:value-of select="'MR'"/>
             </xsl:element> 
             
+            <!-- date ouverture dossier -->
             <xsl:element name="PID.3.8">
                <xsl:value-of select="/HL7/ZI1/ZI1.21.1"/>
+            </xsl:element> 
+            
+            <xsl:element name="PID.4.1">
+               <xsl:value-of select="''"/>
             </xsl:element> 
             
             <xsl:element name="PID.5.1">
@@ -339,6 +336,21 @@
                       </xsl:element>                          
                 </xsl:otherwise>
              </xsl:choose>
+            
+            <!-- Religion -->
+            <xsl:element name="PID.17.1">
+               <xsl:value-of select="''"/>
+            </xsl:element> 
+            
+            <!-- Citizenship -->
+            <xsl:element name="PID.26.1">
+               <xsl:value-of select="''"/>
+            </xsl:element> 
+            
+            <!-- Nationality -->
+            <xsl:element name="PID.28.1">
+               <xsl:value-of select="''"/>
+            </xsl:element> 
             
              <xsl:element name="PID.30.1">
                <xsl:value-of select="/HL7/PID/PID.30.1"/>
