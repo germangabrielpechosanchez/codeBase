@@ -167,7 +167,32 @@
             </xsl:if>  
             
             <xsl:element name="PID.3.1">
-               <xsl:value-of select="/HL7/PID/PID.4.1[1]"/>
+                     <xsl:variable name="dossierPatient" select="/HL7/PID/PID.4.1[1]" />  
+                     <xsl:variable name="lettreIdDossier" select="substring($dossierPatient,1,1)" />  
+               
+               <xsl:choose>
+                  <xsl:when test="$lettreIdDossier = 'A'">  
+                     <xsl:variable name="afterFirstLetter" select="substring-after($dossierPatient,$lettreIdDossier)" />  
+                     <xsl:variable name="afterFirstLetterWithoutZeros" select="replace($afterFirstLetter,'^0+','' )"/>
+                     <xsl:value-of select="concat($lettreIdDossier,$afterFirstLetterWithoutZeros)"/>
+                  </xsl:when>
+                  
+                  <xsl:when test="$lettreIdDossier = 'B'">  
+                     <xsl:variable name="afterFirstLetter" select="substring-after($dossierPatient,$lettreIdDossier)" />  
+                     <xsl:variable name="afterFirstLetterWithoutZeros" select="replace($afterFirstLetter,'^0+','' )"/>
+                     <xsl:value-of select="concat($lettreIdDossier,$afterFirstLetterWithoutZeros)"/>
+                  </xsl:when>
+                  
+                  <xsl:when test="$lettreIdDossier = 'C'">  
+                     <xsl:variable name="afterFirstLetter" select="substring-after($dossierPatient,$lettreIdDossier)" />  
+                     <xsl:variable name="afterFirstLetterWithoutZeros" select="replace($afterFirstLetter,'^0+','' )"/>
+                     <xsl:value-of select="concat($lettreIdDossier,$afterFirstLetterWithoutZeros)"/>
+                  </xsl:when>
+                  
+                  <xsl:otherwise>
+                     <xsl:value-of select="$dossierPatient"/>
+                  </xsl:otherwise>
+               </xsl:choose>
             </xsl:element>
             
             <xsl:element name="PID.3.3">

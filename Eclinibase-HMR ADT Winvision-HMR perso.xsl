@@ -973,7 +973,6 @@
          
          <xsl:element name="PV1.18.1">   
          <xsl:choose>
-            
             <xsl:when test="$patientType ='1'">  
                <xsl:value-of select="'CD'"/> 
             </xsl:when>
@@ -1034,6 +1033,10 @@
          
          <xsl:element name="PV1.44.1">   
             <xsl:value-of select="/HL7/PV1/PV1.44.1"/> 
+         </xsl:element>
+         
+         <xsl:element name="PV1.52.1">   
+            <xsl:value-of select="'V'"/> 
          </xsl:element>
       </xsl:element> 
       
