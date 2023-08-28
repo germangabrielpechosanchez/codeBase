@@ -41,6 +41,7 @@
             </xsl:when>     
          </xsl:choose>
          
+		  <!-- test add comments -->
          <xsl:choose>
             <xsl:when test="not(($messageType = 'A48' and $eventCode = '215') or $messageType='A08')">
                <xsl:call-template name="MRG"/>
