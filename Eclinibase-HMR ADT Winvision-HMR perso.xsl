@@ -290,7 +290,7 @@
                   <xsl:value-of select="'R2CI&amp;SOINS INTERM. PSY'"/> 
                </xsl:when> 
                
-               <xsl:when test= "$unitSoins = 'R4A'">  
+               <xsl:when test= "$unitSoins = 'R4Z'">  
                   <xsl:value-of select="'R4A&amp;4A courte durée'"/> 
                </xsl:when>   
                
@@ -389,7 +389,7 @@
            </xsl:when> 
                
             <xsl:otherwise>
-               <xsl:value-of select="concat(concat($roomPavillon,' '), substring(/HL7/PV1/PV1.3.2,2))"/> 
+               <xsl:value-of select="concat(concat($roomPavillonS,' '), substring(/HL7/PV1/PV1.3.2,2))"/> 
             </xsl:otherwise>
             </xsl:choose>         
          </xsl:element>
