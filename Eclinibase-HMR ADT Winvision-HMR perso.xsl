@@ -76,10 +76,12 @@
       <xsl:element name="MSH.4.1">
          <xsl:value-of select="'HMR'"/>
       </xsl:element>
-      
-      <xsl:element name="MSH.4.2">
-         <xsl:value-of select="'12934659'"/>
-      </xsl:element>       
+    
+      <xsl:if test="($sendingApplicationName != 'MedUrge')">    
+           <xsl:element name="MSH.4.2">
+              <xsl:value-of select="'12934659'"/>
+           </xsl:element> 
+      </xsl:if>
    </xsl:template>  
    
    <xsl:template name="MSH.5">
@@ -94,16 +96,21 @@
       </xsl:element> 
    </xsl:template> 
    
+   
    <xsl:template name="MSH.15">
-      <xsl:element name="MSH.15.1">
-         <xsl:value-of select="'NE'"/>
-      </xsl:element> 
+      <xsl:if test="($sendingApplicationName != 'MedUrge')">
+            <xsl:element name="MSH.15.1">
+               <xsl:value-of select="'NE'"/>
+            </xsl:element>   
+      </xsl:if>
    </xsl:template> 
    
    <xsl:template name="MSH.16">
-      <xsl:element name="MSH.16.1">
-         <xsl:value-of select="'NE'"/>
-      </xsl:element> 
+      <xsl:if test="($sendingApplicationName != 'MedUrge')">   
+            <xsl:element name="MSH.16.1">
+               <xsl:value-of select="'NE'"/>
+            </xsl:element> 
+      </xsl:if> 
    </xsl:template> 
    
    <xsl:template name="MSH.17">

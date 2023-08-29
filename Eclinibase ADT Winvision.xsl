@@ -61,6 +61,8 @@
          </xsl:element>
       </xsl:template>
       
+      <xsl:variable name="sendingApplicationName" select="/HL7/MSH/MSH.3.1" />
+      
       <xsl:template name="MSH.7">
          <xsl:element name="MSH.7.1">
             <xsl:value-of select="/HL7/MSH/MSH.7.1"/>
@@ -114,10 +116,10 @@
          </xsl:element>
       </xsl:template> 
       
-      <xsl:template name="EVN">
+      <xsl:template name="EVN">   
       <xsl:element name="EVN">
-      <xsl:element name="EVN.1.1">    
          
+      <xsl:element name="EVN.1.1">    
          <xsl:choose>
             <xsl:when test="$messageType = 'A48'">  
                <xsl:value-of select="'A28'"/>
@@ -133,15 +135,29 @@
          </xsl:choose>
       </xsl:element>
          
-         <xsl:element name="EVN.2.1"> 
-            <xsl:value-of select="concat(format-number(/HL7/EVN/EVN.2.1,'000000000000'),'01')"/>  
-         </xsl:element>
+         <xsl:if test="($sendingApplicationName != 'MedUrge')">    
+                   <xsl:element name="EVN.2.1"> 
+                      <xsl:value-of select="concat(format-number(/HL7/EVN/EVN.2.1,'000000000000'),'01')"/>  
+                   </xsl:element>
          
-         <xsl:element name="EVN.6.1"> 
-            <xsl:value-of select="concat(format-number(/HL7/EVN/EVN.6.1,'000000000000'),'01')"/>  
-         </xsl:element>  
-        </xsl:element>   
+                  <xsl:element name="EVN.6.1"> 
+                     <xsl:value-of select="concat(format-number(/HL7/EVN/EVN.6.1,'000000000000'),'01')"/>  
+                  </xsl:element>  
+         </xsl:if> 
+         
+         <xsl:if test="($sendingApplicationName = 'MedUrge')">   
+                   <xsl:element name="EVN.2.1"> 
+                      <xsl:value-of select="/HL7/EVN/EVN.2.1"/>
+                   </xsl:element>
+            
+                   <xsl:element name="EVN.6.1"> 
+                      <xsl:value-of select="/HL7/EVN/EVN.2.1"/>
+                   </xsl:element>  
+         </xsl:if>
+         
+        </xsl:element> 
       </xsl:template>      
+     
           
       <xsl:template name="PID">
          <xsl:element name="PID">
@@ -150,19 +166,63 @@
                <xsl:value-of select="number(/HL7/PID/PID.1.1)"/>
             </xsl:element>
             
-            <xsl:variable name="patientId" select="/HL7/ZI1/ZI1.2.1" />
+            <xsl:variable name="patientId">
+               <xsl:if test="($sendingApplicationName = 'eClinibase')"> 
+                  <xsl:value-of select="/HL7/ZI1/ZI1.2.1" />
+               </xsl:if> 
+               
+               <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
+                  <xsl:value-of select="/HL7/PID/PID.4.1" />
+               </xsl:if>       
+            </xsl:variable>
             
             <xsl:element name="PID.2.1">
                <xsl:value-of select="$patientId"/>
             </xsl:element>     
             
+            <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
+               <xsl:element name="PID.2.4">  
+                  <xsl:value-of select="'RAMQ'"/>
+               </xsl:element>
+            </xsl:if>  
+            
             <xsl:if test="($patientId != '')"> 
             <xsl:element name="PID.2.5">
-               <xsl:value-of select="'NAM'"/>
-            </xsl:element>     
+                  <xsl:value-of select="'NAM'"/>
+            </xsl:element>  
+               
+            <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
+            <xsl:element name="PID.2.6">  
+                  <xsl:value-of select="'CANQC'"/>
+            </xsl:element>      
+            </xsl:if>         
             
             <xsl:element name="PID.2.8">
+               <xsl:if test="($sendingApplicationName = 'eClinibase')"> 
                <xsl:value-of select="concat(/HL7/ZI1/ZI1.5.1,'28')"/>
+               </xsl:if>
+               
+             <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
+                  <xsl:variable name="checkDigitSchema" select="/HL7/PID/PID.4.3"/>
+                  <xsl:variable name="month" select="substring($checkDigitSchema,5,6)"/>
+                
+                  <xsl:variable name="monthsWith30Days" select="'04 06 09 11'"/>
+                  <xsl:variable name="monthsWith31Days" select="'01 03 05 07 08 10 12'"/>
+                  <xsl:variable name="monthsWith28Days" select="'02'"/>
+                
+                <xsl:if test=" contains(concat(' ',$monthsWith30Days, ' '), concat(' ', $month, ' '))">
+                   <xsl:value-of select="concat($checkDigitSchema,'30')"/>
+                </xsl:if>
+                
+                <xsl:if test=" contains(concat(' ',$monthsWith31Days, ' '), concat(' ', $month, ' '))">
+                   <xsl:value-of select="concat($checkDigitSchema,'31')"/>
+                </xsl:if> 
+                
+                <xsl:if test=" contains(concat(' ',$monthsWith28Days, ' '), concat(' ', $month, ' '))">
+                   <xsl:value-of select="concat($checkDigitSchema,'28')"/>
+                </xsl:if>       
+            </xsl:if>
+               
             </xsl:element>  
             </xsl:if>  
             
