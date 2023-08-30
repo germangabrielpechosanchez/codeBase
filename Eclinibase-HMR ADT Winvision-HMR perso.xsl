@@ -132,7 +132,8 @@
    <xsl:template name="PV1">
       <xsl:element name="PV1">
          <xsl:element name="PV1.1.1">
-            <xsl:value-of select="substring(/HL7/PV1/PV1.1.1,4,4)"/>
+            <xsl:value-of select="/HL7/PV1/PV1.1.1"/>
+            <!-- <xsl:value-of select="substring(/HL7/PV1/PV1.1.1,4,4)"/> -->
          </xsl:element>
          
          <xsl:element name="PV1.2.1">
@@ -153,6 +154,10 @@
         
          <xsl:element name="PV1.3.1">
             <xsl:choose> 
+               <xsl:when test= "$unitSoins = 'URGENCE' and $sendingApplicationName = 'MedUrge'">  
+                  <xsl:value-of select="'Urg'"/> 
+               </xsl:when>
+               
                <xsl:when test= "$unitSoins = 'M10A'">  
                     <xsl:value-of select="'M10A&amp;M10AB'"/> 
                </xsl:when>
@@ -443,7 +448,11 @@
          </xsl:element>       
          
          <xsl:element name="PV1.3.7">
-            <xsl:choose>
+            <xsl:choose>  
+               <xsl:when test= "$unitSoins = 'URGENCE' and $sendingApplicationName = 'MedUrge'">
+                  <xsl:value-of select="concat('ML','&amp;','Marcel Lamoureaux')"/> 
+               </xsl:when>
+               
                <xsl:when test="$roomPavillon ='M'">  
                    <xsl:value-of select="concat('MA','&amp;','Pavillon Maisonneuve')"/> 
                </xsl:when>
@@ -474,14 +483,21 @@
             <xsl:value-of select="substring-after(/HL7/PV1/PV1.7.2,',')"/> 
          </xsl:element>
          
+         
          <xsl:element name="PV1.7.7">
-            <xsl:value-of select="'MD'"/> 
+               <xsl:if test="(/HL7/PV1/PV1.7.2 != '')">
+                 <xsl:value-of select="'MD'"/>
+               </xsl:if>
          </xsl:element>
          
          <xsl:variable name="hospitalService" select="/HL7/PV1/PV1.10.1" />
         
          <xsl:element name="PV1.10.1">
             <xsl:choose>
+               <xsl:when test="$hospitalService ='URGENCE' and $sendingApplicationName = 'MedUrge'">  
+                  <xsl:value-of select="'103'"/> 
+               </xsl:when>
+               
                <xsl:when test="$hospitalService ='CAR'">  
                   <xsl:value-of select="'2'"/> 
                </xsl:when>
@@ -678,6 +694,10 @@
          
          <xsl:element name="PV1.10.2">
             <xsl:choose>
+               <xsl:when test="$hospitalService ='URGENCE' and $sendingApplicationName = 'MedUrge'">  
+                  <xsl:value-of select="'Urgence'"/> 
+               </xsl:when>
+               
                <xsl:when test="$hospitalService ='CAR'">  
                   <xsl:value-of select="'CARDIOLOGIE'"/> 
                </xsl:when>
@@ -875,7 +895,10 @@
          <xsl:variable name="admissionType" select="/HL7/PV1/PV1.4.1" />
          
          <xsl:element name="PV1.14.1">  
-         <xsl:choose>
+         <xsl:choose>  
+            <xsl:when test="$sendingApplicationName = 'MedUrge'">  
+               <xsl:value-of select="/HL7/PV1/PV1.14.1"/> 
+            </xsl:when>
             
             <xsl:when test="$admissionType ='1'">  
                <xsl:value-of select="'10'"/> 
@@ -917,6 +940,9 @@
    
          <xsl:element name="PV1.14.2">  
             <xsl:choose>
+               <xsl:when test="$sendingApplicationName = 'MedUrge'">  
+                  <xsl:value-of select="''"/> 
+               </xsl:when>
                
                <xsl:when test="$admissionType ='1'">  
                   <xsl:value-of select="'ADMISSION URGENTE'"/> 
@@ -1013,8 +1039,7 @@
          
          <xsl:element name="PV1.19.1">   
             <xsl:variable name="visitNumber" select="/HL7/PV1/PV1.19.1" />
-            <xsl:choose>
-               
+            <xsl:choose> 
                <xsl:when test="substring($visitNumber,1,4) ='2010'">  
                   <xsl:value-of select="concat(substring($visitNumber,3,2), substring($visitNumber,6,5))"/> 
                </xsl:when>    
@@ -1030,7 +1055,6 @@
                <xsl:otherwise>  
                   <xsl:value-of select="$visitNumber"/> 
                </xsl:otherwise>
-               
             </xsl:choose>
          </xsl:element> 
   
@@ -1038,9 +1062,48 @@
             <xsl:value-of select="/HL7/PV1/PV1.20.1"/> 
          </xsl:element> 
          
+         <xsl:variable name="dischargeDisposition" select="/HL7/PV1/PV1.36.1" />
+         
+         <xsl:element name="PV1.36.1">  
+            <xsl:choose> 
+                    <xsl:when test="$dischargeDisposition ='2'">  
+                      <xsl:value-of select="'2'"/> 
+                    </xsl:when>  
+                 
+                    <xsl:when test="$dischargeDisposition ='4'">  
+                       <xsl:value-of select="'4'"/> 
+                    </xsl:when>  
+            
+                    <xsl:otherwise>  
+                       <xsl:value-of select="'1'"/> 
+                    </xsl:otherwise>
+            </xsl:choose>
+         </xsl:element> 
+         
+         <xsl:element name="PV1.36.2">  
+            <xsl:choose> 
+               <xsl:when test="$dischargeDisposition ='2'">  
+                  <xsl:value-of select="'Admission a HMR'"/> 
+               </xsl:when>  
+               
+               <xsl:when test="$dischargeDisposition ='4'">  
+                  <xsl:value-of select="'Deces'"/> 
+               </xsl:when>  
+               
+               <xsl:otherwise>  
+                  <xsl:value-of select="'Retour a domicile'"/> 
+               </xsl:otherwise>
+            </xsl:choose>
+         </xsl:element> 
+         
+         
          <xsl:element name="PV1.44.1">   
             <xsl:value-of select="/HL7/PV1/PV1.44.1"/> 
          </xsl:element>
+         
+         <xsl:element name="PV1.45.1">   
+            <xsl:value-of select="/HL7/PV1/PV1.45.1"/> 
+         </xsl:element>        
          
          <xsl:element name="PV1.52.1">   
             <xsl:value-of select="'V'"/> 

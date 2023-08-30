@@ -69,7 +69,6 @@
          </xsl:element>
       </xsl:template> 
       
-      
       <xsl:variable name="messageType" select="/HL7/MSH/MSH.9.2" />
       <xsl:variable name="eventCode" select="/HL7/EVN/EVN.4.1" />
       
@@ -227,7 +226,17 @@
             </xsl:if>  
             
             <xsl:element name="PID.3.1">
-                     <xsl:variable name="dossierPatient" select="/HL7/PID/PID.4.1[1]" />  
+               
+               <xsl:variable name="dossierPatient"/>
+               
+               <xsl:if test="($sendingApplicationName = 'eClinibase')"> 
+                     <xsl:value-of select="/HL7/PID/PID.4.1[1]"/>  
+               </xsl:if> 
+               
+               <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
+                  <xsl:value-of select="/HL7/PID/PID.3.1"/>  
+               </xsl:if>            
+               
                      <xsl:variable name="lettreIdDossier" select="substring($dossierPatient,1,1)" />  
                
                <xsl:choose>
@@ -279,11 +288,12 @@
             <xsl:element name="PID.5.2">
                <xsl:value-of select="/HL7/PID/PID.5.2"/>
             </xsl:element> 
-          
-          
+            
+            
+            <xsl:variable name="areaCityCode" select="/HL7/PID/PID.14.6" /> 
             <xsl:for-each select="/HL7/NK1">
             <xsl:choose>
-                <xsl:when test="substring(./NK1.1.1,4,4) = '4'"> 
+               <xsl:when test="substring(./NK1.1.1,4,4) = '4' or ./NK1.1.1='4'"> 
                    <xsl:element name="PID.6.1">
                       <xsl:value-of select="./NK1.2.1"/> 
                    </xsl:element>  
@@ -464,31 +474,31 @@
                   <xsl:variable name="setID" select="./NK1.1.1" /> 
                   
                      <xsl:choose>        
-                        <xsl:when test="substring(./$setID,4,4) = '1'">
+                        <xsl:when test="substring(./$setID,4,4) = '1' or ./$setID='1'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'FTH'"/> 
                            </xsl:element>   
                         </xsl:when>
                         
-                        <xsl:when test="substring(./$setID,4,4) = '2'">
+                        <xsl:when test="substring(./$setID,4,4) = '2' or ./$setID='2'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'SPO'"/> 
                            </xsl:element>     
                         </xsl:when>
                         
-                        <xsl:when test="substring(./$setID,4,4) = '3'">
+                        <xsl:when test="substring(./$setID,4,4) = '3' or ./$setID='3'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'EMC'"/> 
                            </xsl:element>     
                         </xsl:when>
                         
-                        <xsl:when test="substring(./$setID,4,4) = '4'"> 
+                        <xsl:when test="substring(./$setID,4,4) = '4' or ./$setID='4'"> 
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'MTH'"/> 
                            </xsl:element>  
                         </xsl:when>
                         
-                        <xsl:when test="substring(./$setID,4,4) = '5'">
+                        <xsl:when test="substring(./$setID,4,4) = '5' or ./$setID='5'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'EMR'"/> 
                            </xsl:element>   
