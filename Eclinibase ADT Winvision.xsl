@@ -353,6 +353,7 @@
                <xsl:value-of select="/HL7/PID/PID.11.9"/>
             </xsl:element> 
             
+            <xsl:if test="($sendingApplicationName = 'eClinibase')">
             <xsl:element name="PID.13.1">
                <xsl:value-of select="concat('(',/HL7/PID/PID.13.6,')','-',/HL7/PID/PID.13.7)"/>
             </xsl:element> 
@@ -364,10 +365,12 @@
             <xsl:element name="PID.13.3">
                <xsl:value-of select="'PH'"/>
             </xsl:element>
+            </xsl:if>
             
+            
+            <xsl:if test="($sendingApplicationName = 'eClinibase')"> 
             <xsl:variable name="areaCityCode" select="/HL7/PID/PID.14.6" />  
            <xsl:if test="($areaCityCode != '')"> 
-              
                 <xsl:element name="PID.14.1">
                    <xsl:value-of select="concat('(',$areaCityCode,')','-',/HL7/PID/PID.14.7)"/>
                 </xsl:element> 
@@ -379,7 +382,25 @@
                 <xsl:element name="PID.14.3">
                     <xsl:value-of select="'PH'"/>
                 </xsl:element>
-           </xsl:if>  
+           </xsl:if>
+           </xsl:if> 
+            
+            <xsl:if test="($sendingApplicationName = 'MedUrge')">
+               <xsl:variable name="areaCityCode" select="substring(/HL7/PID/PID.13.1,1,3)"/>  
+               <xsl:variable name="telephoneNumber" select="substring(/HL7/PID/PID.13.1,4,7)"/> 
+               
+               <xsl:element name="PID.13.1">
+                  <xsl:value-of select="concat('(',$areaCityCode,')',$telephoneNumber)"/>
+               </xsl:element>
+               
+               <xsl:element name="PID.13.2">
+                  <xsl:value-of select="'PRN'"/>
+               </xsl:element>
+               
+               <xsl:element name="PID.13.3">
+                  <xsl:value-of select="'PH'"/>
+               </xsl:element>   
+            </xsl:if> 
             
             <xsl:element name="PID.15.1">
                <xsl:value-of select="/HL7/PID/PID.15.1"/>
@@ -473,36 +494,78 @@
                   
                   <xsl:variable name="setID" select="./NK1.1.1" /> 
                   
-                     <xsl:choose>        
+                  <xsl:variable name="kinTelephoneNumber"> 
+                  <xsl:if test="($sendingApplicationName = 'MedUrge') and ./NK1.5.1!=''">
+                     <xsl:value-of select="translate(./NK1.5.1, translate(./NK1.5.1, '0123456789', ''), '')"/> 
+                  </xsl:if> 
+                  </xsl:variable>
+                  
+                     <xsl:choose>  
                         <xsl:when test="substring(./$setID,4,4) = '1' or ./$setID='1'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'FTH'"/> 
+                           </xsl:element> 
+                           
+                           <xsl:element name="NK1.5.1">
+                              <xsl:value-of select="$kinTelephoneNumber"/> 
                            </xsl:element>   
                         </xsl:when>
                         
                         <xsl:when test="substring(./$setID,4,4) = '2' or ./$setID='2'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'SPO'"/> 
-                           </xsl:element>     
+                           </xsl:element>
+                           
+                           <xsl:element name="NK1.5.1">
+                              <xsl:value-of select="$kinTelephoneNumber"/> 
+                           </xsl:element>              
                         </xsl:when>
                         
                         <xsl:when test="substring(./$setID,4,4) = '3' or ./$setID='3'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'EMC'"/> 
-                           </xsl:element>     
+                           </xsl:element>
+                           
+                           <xsl:element name="NK1.5.1">
+                              <xsl:value-of select="$kinTelephoneNumber"/> 
+                           </xsl:element>
                         </xsl:when>
                         
                         <xsl:when test="substring(./$setID,4,4) = '4' or ./$setID='4'"> 
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'MTH'"/> 
-                           </xsl:element>  
+                           </xsl:element>
+                           
+                           <xsl:element name="NK1.5.1">
+                              <xsl:value-of select="$kinTelephoneNumber"/> 
+                           </xsl:element>
                         </xsl:when>
                         
                         <xsl:when test="substring(./$setID,4,4) = '5' or ./$setID='5'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'EMR'"/> 
-                           </xsl:element>   
-                        </xsl:when>    
+                           </xsl:element>
+                           
+                           <xsl:if test="($sendingApplicationName = 'MedUrge')">
+                              
+                           <xsl:element name="NK1.4.1">
+                              <xsl:value-of select="./NK1.4.1"/> 
+                           </xsl:element>
+                              
+                           <xsl:element name="NK1.4.2">
+                              <xsl:value-of select="./NK1.4.3"/> 
+                           </xsl:element>
+                              
+                           <xsl:element name="NK1.4.3">
+                              <xsl:value-of select="./NK1.4.5"/> 
+                           </xsl:element>
+      
+                           <xsl:element name="NK1.5.1">
+                                 <xsl:value-of select="./NK1.5.1"/> 
+                           </xsl:element>
+                              
+                           </xsl:if>  
+                        </xsl:when>      
                      </xsl:choose>     
                   </xsl:element> 
              

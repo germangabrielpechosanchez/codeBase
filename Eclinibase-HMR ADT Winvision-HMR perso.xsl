@@ -356,82 +356,196 @@
               </xsl:choose>
          </xsl:variable>
          
-         <xsl:variable name="roomPavillon" select="substring($roomPatient,1,1)" />
+         <xsl:variable name="roomPavillon">
+            <xsl:choose> 
+               <xsl:when test="$sendingApplicationName = 'eClinibase'"> 
+              <xsl:value-of select="substring($roomPatient,1,1)" />
+               </xsl:when>
+               
+               <xsl:when test="$sendingApplicationName = 'MedUrge'"> 
+                  <xsl:value-of select="'ML'" />
+               </xsl:when>
+            </xsl:choose>
+         </xsl:variable>
          
-         <xsl:element name="PV1.3.2">         
+         <xsl:element name="PV1.3.2"> 
             <xsl:choose>        
                <xsl:when test="$roomPatient = 'M01090'">
                   <xsl:value-of select="'M 1090'"/>
-            </xsl:when>
+               </xsl:when>
                
                <xsl:when test="$roomPatient = 'M01080'">
                   <xsl:value-of select="'M 1080'"/>
-           </xsl:when>
+               </xsl:when>
                
                <xsl:when test="$roomPatient = 'M00990'">
                   <xsl:value-of select="'M 0990'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00980'">
                   <xsl:value-of select="'M 0980'"/>
-           </xsl:when>
+               </xsl:when>
                
                <xsl:when test="$roomPatient = 'M00780'">
                  <xsl:value-of select="'M 0780'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00690'">
                  <xsl:value-of select="'M 0690'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00680'">
                 <xsl:value-of select="'M 0680'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00580'">
                 <xsl:value-of select="'M 0580'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00490'">
                 <xsl:value-of select="'M 0490'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00480'">
                 <xsl:value-of select="'M 0480'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient= 'M00470'">
                   <xsl:value-of select="'M 0480'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00380'">
                 <xsl:value-of select="'M 0470'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00470'">
                 <xsl:value-of select="'M 0470'"/>
-           </xsl:when> 
+               </xsl:when> 
                 
                <xsl:when test="$roomPatient = 'M00180'">
                 <xsl:value-of select="'M 0180'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00638'">
                 <xsl:value-of select="'M 0638'"/>
-           </xsl:when> 
+               </xsl:when> 
                
                <xsl:when test="$roomPatient = 'M00653'">
                 <xsl:value-of select="'M 0653'"/>
-           </xsl:when> 
+               </xsl:when> 
+               
+               <!-- rooms for MedUrge -->
+               
+               <xsl:when test="$roomPatient = 'CUBE'">
+                  <xsl:value-of select="'CUBE'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'CABINET'">
+                  <xsl:value-of select="'T'"/>
+               </xsl:when> 
+               
+               <xsl:when test="$roomPatient = 'AMBU'">
+                  <xsl:value-of select="'AMBU'"/>
+               </xsl:when> 
+               
+               <xsl:when test="$roomPatient = 'ANNEXE'">
+                  <xsl:value-of select="'A'"/>
+               </xsl:when> 
+               
+               <xsl:when test="$roomPatient = 'CHOC'">
+                  <xsl:value-of select="'C'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'COCHOC'">
+                  <xsl:value-of select="'H'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'COOBS'">
+                  <xsl:value-of select="'B'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'DEBORD'">
+                  <xsl:value-of select="'D'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'OBS'">
+                  <xsl:value-of select="'O'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'ZONE'">
+                  <xsl:value-of select="'F'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'PSY-PED'">
+                  <xsl:value-of select="'PSY-PED'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'ZER'">
+                  <xsl:value-of select="'ZER'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'OBSERV'">
+                  <xsl:value-of select="'OBSERV'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'OBSA39'">
+                  <xsl:value-of select="'OBSERV'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'OBSA57'">
+                  <xsl:value-of select="'OBSERV'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'MONIT'">
+                  <xsl:value-of select="'MONIT'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'RÉA'">
+                  <xsl:value-of select="'RÉA'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'PANDÉMIE'">
+                  <xsl:value-of select="'PANDÉMIE'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'COVID'">
+                  <xsl:value-of select="'COVID'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'COVIDTX'">
+                  <xsl:value-of select="'COVIDTX'"/>
+               </xsl:when>
+               
+               <xsl:when test="$roomPatient = 'DOUBLE'">
+                  <xsl:variable name="bed" select="substring(/HL7/PV1/PV1.6.3,1,1)"/>
+                  <xsl:choose> 
+                         <xsl:when test="$bed = 'P'">
+                               <xsl:value-of select="'PSY-PED'"/>
+                         </xsl:when>
+                     
+                         <xsl:when test="$bed = 'R'">
+                             <xsl:value-of select="'RÉA'"/>
+                         </xsl:when>
+                     
+                         <xsl:when test="$bed = 'M'">
+                            <xsl:value-of select="'MONIT'"/>
+                         </xsl:when>
+                     
+                         <xsl:when test="$bed = 'O'">
+                            <xsl:value-of select="'OBSERV'"/>
+                         </xsl:when>
+                  </xsl:choose>  
+               </xsl:when>
                
             <xsl:otherwise>
                <xsl:value-of select="concat(concat($roomPavillon,' '), substring($roomPatient,2))"/> 
             </xsl:otherwise>
-            </xsl:choose>         
+               
+            </xsl:choose>      
          </xsl:element>
          
-         
          <xsl:element name="PV1.3.3">
+            <xsl:if test="($sendingApplicationName = 'eClinibase')">     
             <xsl:choose> 
                <xsl:when test="($messageType != 'A12')"> 
                    <xsl:value-of select="substring-after(/HL7/PV1/PV1.3.3,'-')"/> 
@@ -440,7 +554,12 @@
                <xsl:otherwise>
                   <xsl:value-of select="substring-after(/HL7/PV1/PV1.6.3,'-')"/>
                </xsl:otherwise>
-            </xsl:choose>       
+            </xsl:choose>
+            </xsl:if>
+            
+            <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
+               <xsl:value-of select="/HL7/PV1/PV1.3.3"/> 
+            </xsl:if>
          </xsl:element>
          
          <xsl:element name="PV1.3.4">
@@ -449,7 +568,7 @@
          
          <xsl:element name="PV1.3.7">
             <xsl:choose>  
-               <xsl:when test= "$unitSoins = 'URGENCE' and $sendingApplicationName = 'MedUrge'">
+               <xsl:when test= "$unitSoins = 'URGENCE' and $sendingApplicationName = 'MedUrge' and $roomPavillon = 'ML'">
                   <xsl:value-of select="concat('ML','&amp;','Marcel Lamoureaux')"/> 
                </xsl:when>
                
