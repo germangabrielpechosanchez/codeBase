@@ -132,8 +132,7 @@
    <xsl:template name="PV1">
       <xsl:element name="PV1">
          <xsl:element name="PV1.1.1">
-            <xsl:value-of select="/HL7/PV1/PV1.1.1"/>
-            <!-- <xsl:value-of select="substring(/HL7/PV1/PV1.1.1,4,4)"/> -->
+            <xsl:value-of select="substring(/HL7/PV1/PV1.1.1,4,4)"/>
          </xsl:element>
          
          <xsl:element name="PV1.2.1">
