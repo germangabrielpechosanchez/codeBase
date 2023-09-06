@@ -604,7 +604,7 @@
          
          <xsl:element name="PV1.7.7">
                <xsl:if test="(/HL7/PV1/PV1.7.2 != '')">
-                 <xsl:value-of select="'MD'"/>
+                  <xsl:value-of select="/HL7/PV1/PV1.7.7"/>
                </xsl:if>
          </xsl:element>
          
@@ -1270,6 +1270,10 @@
               <xsl:value-of select="'0'"/>
               </xsl:when> 
             
+            <xsl:when test="($citizenship = '1')"> 
+               <xsl:value-of select="'1'"/>
+            </xsl:when> 
+            
             <xsl:when test="($citizenship = '2')"> 
                <xsl:value-of select="'2'"/>
             </xsl:when> 
@@ -1282,6 +1286,10 @@
              <xsl:value-of select="'CANADA'"/>
             </xsl:when> 
             
+            <xsl:when test="($citizenship = '1')"> 
+               <xsl:value-of select="'VISITEUR ET TOURISTE'"/>
+            </xsl:when> 
+            
             <xsl:when test="($citizenship = '2')"> 
                <xsl:value-of select="'IMMIGRANT RECU'"/>
             </xsl:when> 
@@ -1290,6 +1298,10 @@
       
       <xsl:element name="ZPV.4.1">
             <xsl:value-of select="/HL7/ZV1/ZV1.22.1"/> 
+      </xsl:element>
+         
+      <xsl:element name="ZPV.4.2">
+           <xsl:value-of select="/HL7/ZV1/ZV1.14.1"/> 
       </xsl:element>
       
       <xsl:element name="ZPV.11.1">
