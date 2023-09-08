@@ -227,8 +227,7 @@
             
             <xsl:element name="PID.3.1">
                
-               <xsl:variable name="dossierPatient"/>
-               
+               <xsl:variable name="dossierPatient">
                <xsl:if test="($sendingApplicationName = 'eClinibase')"> 
                      <xsl:value-of select="/HL7/PID/PID.4.1[1]"/>  
                </xsl:if> 
@@ -236,6 +235,7 @@
                <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
                   <xsl:value-of select="/HL7/PID/PID.3.1"/>  
                </xsl:if>            
+               </xsl:variable>
                
                      <xsl:variable name="lettreIdDossier" select="substring($dossierPatient,1,1)" />  
                
@@ -456,6 +456,22 @@
             <!-- Religion -->
             <xsl:element name="PID.17.1">
                <xsl:value-of select="''"/>
+            </xsl:element> 
+            
+            <!-- Birth place -->
+            <xsl:element name="PID.23.1">
+               <xsl:variable name="birthPlace" select="/HL7/PID/PID.23.1" />  
+                        <xsl:if test="($birthPlace = 'Québec')">
+                            <xsl:value-of select="'1'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Italie')">
+                           <xsl:value-of select="'12'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Rwanda')">
+                            <xsl:value-of select="'12'"/>
+                        </xsl:if>
             </xsl:element> 
             
             <!-- Citizenship -->

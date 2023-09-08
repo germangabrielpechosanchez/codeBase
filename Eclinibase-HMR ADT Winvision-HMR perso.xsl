@@ -1192,9 +1192,13 @@
                        <xsl:value-of select="'4'"/> 
                     </xsl:when>  
             
-                    <xsl:otherwise>  
+                    <xsl:when test="$dischargeDisposition ='1'">  
                        <xsl:value-of select="'1'"/> 
-                    </xsl:otherwise>
+                    </xsl:when>
+               
+               <xsl:otherwise>  
+                  <xsl:value-of select="$dischargeDisposition"/> 
+               </xsl:otherwise>
             </xsl:choose>
          </xsl:element> 
          
@@ -1208,9 +1212,9 @@
                   <xsl:value-of select="'Deces'"/> 
                </xsl:when>  
                
-               <xsl:otherwise>  
+               <xsl:when test="$dischargeDisposition ='1'">  
                   <xsl:value-of select="'Retour a domicile'"/> 
-               </xsl:otherwise>
+               </xsl:when>
             </xsl:choose>
          </xsl:element> 
          
@@ -1223,7 +1227,7 @@
             <xsl:value-of select="/HL7/PV1/PV1.45.1"/> 
          </xsl:element>        
          
-         <xsl:element name="PV1.52.1">   
+         <xsl:element name="PV1.51.1">   
             <xsl:value-of select="'V'"/> 
          </xsl:element>
       </xsl:element> 
@@ -1266,7 +1270,7 @@
          
       <xsl:element name="ZPV.2.1">
          <xsl:choose>
-              <xsl:when test="($citizenship = '')"> 
+            <xsl:when test="($citizenship = '') or ($citizenship = '0')"> 
               <xsl:value-of select="'0'"/>
               </xsl:when> 
             
@@ -1282,7 +1286,7 @@
       
       <xsl:element name="ZPV.2.2">
          <xsl:choose>
-            <xsl:when test="($citizenship = '')"> 
+            <xsl:when test="($citizenship = '') or ($citizenship = '0')"> 
              <xsl:value-of select="'CANADA'"/>
             </xsl:when> 
             
@@ -1300,8 +1304,8 @@
             <xsl:value-of select="/HL7/ZV1/ZV1.22.1"/> 
       </xsl:element>
          
-      <xsl:element name="ZPV.4.2">
-           <xsl:value-of select="/HL7/ZV1/ZV1.14.1"/> 
+      <xsl:element name="ZPV.5.1">
+         <xsl:value-of select="/HL7/PV1/PV1.20.1"/> 
       </xsl:element>
       
       <xsl:element name="ZPV.11.1">
