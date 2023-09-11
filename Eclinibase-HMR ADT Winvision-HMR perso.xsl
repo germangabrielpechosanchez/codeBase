@@ -68,6 +68,7 @@
          <xsl:call-template name="MSH.16"/>
          <xsl:call-template name="MSH.17"/>
          <xsl:call-template name="MSH.19"/>
+         <xsl:call-template name="MSH.20"/>
       </xsl:element>
    </xsl:template> 
    
@@ -126,6 +127,12 @@
  
       <xsl:element name="MSH.19.2">
          <xsl:value-of select="'Francais'"/>
+      </xsl:element>
+   </xsl:template>
+   
+   <xsl:template name="MSH.20">
+      <xsl:element name="MSH.20.1">
+         <xsl:value-of select="''"/>
       </xsl:element>
    </xsl:template>
   
@@ -274,7 +281,7 @@
                </xsl:when> 
                
                <xsl:when test= "$unitSoins = 'M9CD'">  
-                  <xsl:value-of select="'M9AB&amp;M9AB'"/> 
+                  <xsl:value-of select="'M9CD&amp;M9CD'"/> 
                </xsl:when>
                
                <xsl:when test= "$unitSoins = 'MUHT'">  
@@ -1230,6 +1237,11 @@
          <xsl:element name="PV1.51.1">   
             <xsl:value-of select="'V'"/> 
          </xsl:element>
+     
+         <xsl:element name="PV1.52.1">   
+            <xsl:value-of select="''"/> 
+         </xsl:element>
+         
       </xsl:element> 
       
       <xsl:variable name="diagnosisSegment" select="/HL7/DG1/DG1.3.2" />
@@ -1242,7 +1254,12 @@
           
           <xsl:element name="PV2.3.1">
              <xsl:value-of select="$diagnosisSegment"/>
-          </xsl:element> 
+          </xsl:element>
+         
+         <xsl:element name="PV2.4.1">
+            <xsl:value-of select="''"/>
+         </xsl:element>
+         
       </xsl:element>
      </xsl:if> 
    </xsl:template>
@@ -1314,6 +1331,10 @@
       
       <xsl:element name="ZPV.11.2">
          <xsl:value-of select="/HL7/ZV1/ZV1.3.1"/> 
+      </xsl:element>
+         
+      <xsl:element name="ZPV.12.1">
+         <xsl:value-of select="''"/> 
       </xsl:element>
          
       </xsl:element>
