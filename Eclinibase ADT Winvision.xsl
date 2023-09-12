@@ -80,9 +80,13 @@
          
          <xsl:element name="MSH.9.2">  
             <xsl:choose>
-                <xsl:when test="$messageType = 'A48'">  
+               <xsl:when test="$messageType = 'A48'  and $eventCode = '215'">  
                      <xsl:value-of select="'A28'"/>
-                </xsl:when>   
+                </xsl:when>
+               
+               <xsl:when test="$messageType = 'A48' and $eventCode = '119'">  
+                  <xsl:value-of select="'A46'"/>
+               </xsl:when>   
        
                <xsl:when test="$messageType = 'A23'">  
                      <xsl:value-of select="'A11'"/>
@@ -119,9 +123,13 @@
            <xsl:element name="EVN">     
            <xsl:element name="EVN.1.1">    
               <xsl:choose>
-                 <xsl:when test="$messageType = 'A48'">  
+                 <xsl:when test="$messageType = 'A48' and $eventCode = '215'">  
                     <xsl:value-of select="'A28'"/>
-                 </xsl:when>   
+                 </xsl:when>
+                 
+                 <xsl:when test="$messageType = 'A48' and $eventCode = '119'">  
+                    <xsl:value-of select="'A46'"/>
+                 </xsl:when>                 
                  
                  <xsl:when test="$messageType = 'A23'">  
                     <xsl:value-of select="'A11'"/>
@@ -274,10 +282,12 @@
                <xsl:value-of select="'MR'"/>
             </xsl:element> 
             
-            <!-- date ouverture dossier -->
-            <xsl:element name="PID.3.7">
-               <xsl:value-of select="/HL7/ZI1/ZI1.21.1"/>
-            </xsl:element> 
+            <!-- date ouverture du dossier -->
+            <xsl:if test="(/HL7/ZI1/ZI1.21.1 != '')"> 
+                      <xsl:element name="PID.3.7">
+                         <xsl:value-of select="/HL7/ZI1/ZI1.21.1"/>
+                      </xsl:element>
+            </xsl:if>  
             
             <xsl:element name="PID.4.1">
                <xsl:value-of select="''"/>
@@ -315,76 +325,87 @@
                <xsl:value-of select="/HL7/PID/PID.8.1"/>
             </xsl:element> 
             
-            <xsl:element name="PID.9.1">
-               <xsl:value-of select="/HL7/PID/PID.9.1"/>
-            </xsl:element> 
+            <xsl:if test="(/HL7/PID/PID.9.1 != '')">
+                      <xsl:element name="PID.9.1">
+                         <xsl:value-of select="/HL7/PID/PID.9.1"/>
+                      </xsl:element> 
+            </xsl:if>  
             
-            <xsl:element name="PID.9.2">
-               <xsl:value-of select="/HL7/PID/PID.9.2"/>
-            </xsl:element> 
+            <xsl:if test="(/HL7/PID/PID.9.2 != '')">
+                      <xsl:element name="PID.9.2">
+                         <xsl:value-of select="/HL7/PID/PID.9.2"/>
+                      </xsl:element> 
+            </xsl:if>  
             
-            <xsl:element name="PID.11.1">
-               <xsl:value-of select="/HL7/PID/PID.11.1"/>
-            </xsl:element> 
             
-            <xsl:element name="PID.11.2">
-               <xsl:value-of select="''"/>
-            </xsl:element> 
-            
-            <xsl:element name="PID.11.3">
-               <xsl:value-of select="/HL7/PID/PID.11.2"/>
-            </xsl:element> 
-            
-            <xsl:element name="PID.11.4">
-               <xsl:value-of select="/HL7/PID/PID.11.4"/>
-            </xsl:element> 
-            
-           <xsl:element name="PID.11.5">
-               <xsl:value-of select="/HL7/PID/PID.11.5"/>
-            </xsl:element> 
-            
-            <xsl:element name="PID.11.6">
-               <xsl:value-of select="''"/>
-            </xsl:element> 
-         
-            <xsl:element name="PID.11.7">
-               <xsl:value-of select="'H'"/>
-            </xsl:element>
-            
-            <xsl:element name="PID.11.8">
-               <xsl:value-of select="/HL7/PID/PID.11.8"/>
-            </xsl:element>
+            <xsl:if test="(/HL7/PID/PID.11.1 != '')">
+                         <xsl:element name="PID.11.1">
+                            <xsl:value-of select="/HL7/PID/PID.11.1"/>
+                         </xsl:element> 
+                         
+                         <xsl:element name="PID.11.2">
+                            <xsl:value-of select="''"/>
+                         </xsl:element> 
+                         
+                         <xsl:element name="PID.11.3">
+                            <xsl:value-of select="/HL7/PID/PID.11.2"/>
+                         </xsl:element> 
+                         
+                         <xsl:element name="PID.11.4">
+                            <xsl:value-of select="/HL7/PID/PID.11.4"/>
+                         </xsl:element> 
+                         
+                        <xsl:element name="PID.11.5">
+                            <xsl:value-of select="/HL7/PID/PID.11.5"/>
+                         </xsl:element> 
+                         
+                         <xsl:element name="PID.11.6">
+                            <xsl:value-of select="''"/>
+                         </xsl:element> 
+                      
+                         <xsl:element name="PID.11.7">
+                            <xsl:value-of select="'H'"/>
+                         </xsl:element>
+                         
+                         <xsl:element name="PID.11.8">
+                            <xsl:value-of select="/HL7/PID/PID.11.8"/>
+                         </xsl:element>
+            </xsl:if>     
+               
                
             <xsl:if test="($sendingApplicationName = 'eClinibase')">
-            <xsl:element name="PID.13.1">
-               <xsl:value-of select="concat('(',/HL7/PID/PID.13.6,')','-',/HL7/PID/PID.13.7)"/>
-            </xsl:element> 
-            
-            <xsl:element name="PID.13.2">
-               <xsl:value-of select="/HL7/PID/PID.13.2"/>
-            </xsl:element>
-            
-            <xsl:element name="PID.13.3">
-               <xsl:value-of select="'PH'"/>
-            </xsl:element>
+               <xsl:if test="(/HL7/PID/PID.13.6 != '')">
+                     <xsl:element name="PID.13.1">
+                        <xsl:value-of select="concat('(',/HL7/PID/PID.13.6,')','-',/HL7/PID/PID.13.7)"/>
+                     </xsl:element> 
+                     
+                     <xsl:element name="PID.13.2">
+                        <xsl:value-of select="/HL7/PID/PID.13.2"/>
+                     </xsl:element>
+                     
+                     <xsl:element name="PID.13.3">
+                        <xsl:value-of select="'PH'"/>
+                     </xsl:element>
+               </xsl:if>
             </xsl:if>
             
             
-            <xsl:if test="($sendingApplicationName = 'eClinibase')"> 
-            <xsl:variable name="areaCityCode" select="/HL7/PID/PID.14.6" />  
-           <xsl:if test="($areaCityCode != '')"> 
-                <xsl:element name="PID.14.1">
-                   <xsl:value-of select="concat('(',$areaCityCode,')','-',/HL7/PID/PID.14.7)"/>
-                </xsl:element> 
-                
-                <xsl:element name="PID.14.2">
-                   <xsl:value-of select="/HL7/PID/PID.14.2"/>
-                </xsl:element> 
-        
-                <xsl:element name="PID.14.3">
-                    <xsl:value-of select="'PH'"/>
-                </xsl:element>
-           </xsl:if>
+            <xsl:if test="($sendingApplicationName = 'eClinibase')">     
+            <xsl:variable name="areaCityCode" select="/HL7/PID/PID.14.6" /> 
+               
+                        <xsl:if test="($areaCityCode != '')"> 
+                             <xsl:element name="PID.14.1">
+                                <xsl:value-of select="concat('(',$areaCityCode,')','-',/HL7/PID/PID.14.7)"/>
+                             </xsl:element> 
+                             
+                             <xsl:element name="PID.14.2">
+                                <xsl:value-of select="/HL7/PID/PID.14.2"/>
+                             </xsl:element> 
+                     
+                             <xsl:element name="PID.14.3">
+                                 <xsl:value-of select="'PH'"/>
+                             </xsl:element>
+                        </xsl:if>      
            </xsl:if> 
             
             <xsl:if test="($sendingApplicationName = 'MedUrge')">

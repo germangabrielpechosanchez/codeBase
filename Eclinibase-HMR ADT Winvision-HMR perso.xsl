@@ -45,6 +45,11 @@
             <xsl:when test="not(($messageType = 'A48') or $messageType='A08' or $messageType='A01' or $messageType='A02')">
                <xsl:call-template name="MRG"/>
             </xsl:when> 
+            
+            <xsl:when test="$messageType = 'A48' and $eventCode = '119'">  
+               <xsl:call-template name="MRG"/>
+            </xsl:when> 
+            
          </xsl:choose>
            
          <xsl:call-template name="ZPV"/>  
@@ -596,24 +601,28 @@
             <xsl:value-of select="/HL7/PV1/PV1.18.1"/> 
          </xsl:element>
          
-         <xsl:element name="PV1.7.1">
-            <xsl:value-of select="/HL7/PV1/PV1.7.1"/> 
-         </xsl:element>
+         <!--     afficher docteur or non -->
+         <!--     <xsl:if test="/HL7/PV1/PV1.8.1 != '' or /HL7/PV1/PV1.8.2 != '' or /HL7/PV1/PV1.17.1 != ''"> -->
          
-         <xsl:element name="PV1.7.2">
-            <xsl:value-of select="substring-before(/HL7/PV1/PV1.7.2,',')"/> 
-         </xsl:element>
-         
-         <xsl:element name="PV1.7.3">
-            <xsl:value-of select="substring-after(/HL7/PV1/PV1.7.2,',')"/> 
-         </xsl:element>
-         
-         
-         <xsl:element name="PV1.7.7">
-               <xsl:if test="(/HL7/PV1/PV1.7.2 != '')">
-                  <xsl:value-of select="/HL7/PV1/PV1.7.7"/>
-               </xsl:if>
-         </xsl:element>
+         <xsl:if test="/HL7/PV1/PV1.18.1 != '1'">   
+              <xsl:element name="PV1.7.1">
+                 <xsl:value-of select="/HL7/PV1/PV1.7.1"/> 
+              </xsl:element>
+              
+              <xsl:element name="PV1.7.2">
+                 <xsl:value-of select="substring-before(/HL7/PV1/PV1.7.2,',')"/> 
+              </xsl:element>
+              
+              <xsl:element name="PV1.7.3">
+                 <xsl:value-of select="substring-after(/HL7/PV1/PV1.7.2,',')"/> 
+              </xsl:element>
+              
+              <xsl:element name="PV1.7.7">
+                    <xsl:if test="(/HL7/PV1/PV1.7.2 != '')">
+                       <xsl:value-of select="'MD'"/>    
+                    </xsl:if>
+              </xsl:element>
+         </xsl:if>
          
          <xsl:variable name="hospitalService" select="/HL7/PV1/PV1.10.1" />
         
@@ -1267,8 +1276,9 @@
    <xsl:variable name="mergePatientInformation" select="/HL7/MRG/MRG.2.1" />
    
    <xsl:template name="MRG">
-      <xsl:if test="($mergePatientInformation != '')"> 
-      <xsl:element name="MRG"> 
+      <xsl:if test="($mergePatientInformation != '')">
+         
+      <xsl:element name="MRG">
          <xsl:element name="MRG.1.1">
             <xsl:value-of select="$mergePatientInformation"/>
          </xsl:element>
@@ -1276,7 +1286,12 @@
          <xsl:element name="MRG.1.4.1">
             <xsl:value-of select="'HMR'"/>
          </xsl:element>
+         
+         <xsl:element name="MRG.2.1">
+            <xsl:value-of select="''"/>
+         </xsl:element>
       </xsl:element>
+         
     </xsl:if> 
    </xsl:template>
     
@@ -1315,28 +1330,45 @@
                <xsl:value-of select="'IMMIGRANT RECU'"/>
             </xsl:when> 
          </xsl:choose>
-      </xsl:element>     
-      
-      <xsl:element name="ZPV.4.1">
-            <xsl:value-of select="/HL7/ZV1/ZV1.22.1"/> 
-      </xsl:element>
+      </xsl:element> 
          
-      <xsl:element name="ZPV.5.1">
-         <xsl:value-of select="/HL7/PV1/PV1.20.1"/> 
-      </xsl:element>
+      <xsl:element name="ZPV.3.1">
+            <xsl:value-of select="''"/> 
+      </xsl:element> -->  
       
-      <xsl:element name="ZPV.11.1">
-         <xsl:value-of select="/HL7/ZV1/ZV1.2.1"/> 
-      </xsl:element>
+      <xsl:if test="(/HL7/ZV1/ZV1.22.1 != '')">   
+              <xsl:element name="ZPV.4.1">
+                    <xsl:value-of select="/HL7/ZV1/ZV1.22.1"/> 
+              </xsl:element>
+      </xsl:if>
+         
+      <xsl:if test="(/HL7/PV1/PV1.20.1 != '')">   
+            <xsl:element name="ZPV.5.1">
+               <xsl:value-of select="/HL7/PV1/PV1.20.1"/> 
+            </xsl:element>
+      </xsl:if>
+         
+         <!--   <xsl:element name="ZPV.6.1">
+            <xsl:value-of select="''"/> 
+      </xsl:element> -->  
       
-      <xsl:element name="ZPV.11.2">
-         <xsl:value-of select="/HL7/ZV1/ZV1.3.1"/> 
-      </xsl:element>
+      <xsl:if test="(/HL7/ZV1/ZV1.2.1 != '')">   
+            <xsl:element name="ZPV.11.1">
+               <xsl:value-of select="/HL7/ZV1/ZV1.2.1"/> 
+            </xsl:element>
+      </xsl:if>   
+      
+      <xsl:if test="(/HL7/ZV1/ZV1.3.1 != '')">  
+            <xsl:element name="ZPV.11.2">
+               <xsl:value-of select="/HL7/ZV1/ZV1.3.1"/> 
+            </xsl:element>
          
-      <xsl:element name="ZPV.12.1">
-         <xsl:value-of select="''"/> 
-      </xsl:element>
+           <xsl:element name="ZPV.12.1">
+              <xsl:value-of select="''"/> 
+           </xsl:element>
          
+      </xsl:if>
+                
       </xsl:element>
    </xsl:template>
    
