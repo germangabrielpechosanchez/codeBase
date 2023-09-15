@@ -115,7 +115,7 @@
       
       <xsl:template name="MSH.12">
          <xsl:element name="MSH.12.1">
-            <xsl:value-of select="/HL7/MSH/MSH.12.1"/>
+            <xsl:value-of select="'2.4'"/>
          </xsl:element>
       </xsl:template> 
       
@@ -280,6 +280,10 @@
             
             <xsl:element name="PID.3.5">
                <xsl:value-of select="'MR'"/>
+            </xsl:element> 
+            
+            <xsl:element name="PID.3.6">
+               <xsl:value-of select="''"/>
             </xsl:element> 
             
             <!-- date ouverture du dossier -->
@@ -525,7 +529,7 @@
       </xsl:template>    
         
       <xsl:template name="NK1">    
-         <xsl:for-each select="/HL7/NK1[./NK1.2.1!='']">
+         <xsl:for-each select="/HL7/NK1[./NK1.2.1!='' and ./NK1.3.1!='' and ./NK1.3.2!='' ]">
             
                <xsl:element name="NK1">
                   
@@ -549,8 +553,13 @@
                   </xsl:if> 
                   </xsl:variable>
                   
+                  <xsl:variable name="familyIdFirst" select="./NK1.3.1" />
+                  <xsl:variable name="familyIdSecond" select="./NK1.3.2" /> 
+                  
+                  <!-- family ties -->
+                  
                      <xsl:choose>  
-                        <xsl:when test="substring(./$setID,4,4) = '1' or ./$setID='1'">
+                        <xsl:when test="$familyIdFirst = 'PERE' and $familyIdSecond = 'PERE'">
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'FTH'"/> 
                            </xsl:element> 
@@ -560,33 +569,45 @@
                                       <xsl:value-of select="$kinTelephoneNumber"/> 
                                    </xsl:element> 
                            </xsl:if> 
+                           
+                           <xsl:element name="NK1.4.1">
+                              <xsl:value-of select="''"/> 
+                           </xsl:element>
                         </xsl:when>
                         
-                        <xsl:when test="substring(./$setID,4,4) = '2' or ./$setID='2'">
-                           <xsl:element name="NK1.3.1">
-                              <xsl:value-of select="'SPO'"/> 
-                           </xsl:element>
+                        <xsl:when test="$familyIdFirst = 'CONJ' and $familyIdSecond = 'CONJOINT'">
+                                  <xsl:element name="NK1.3.1">
+                                     <xsl:value-of select="'SPO'"/> 
+                                  </xsl:element>
                            
                            <xsl:if test="$kinTelephoneNumber != ''">   
                                     <xsl:element name="NK1.5.1">
                                        <xsl:value-of select="$kinTelephoneNumber"/> 
                                     </xsl:element>
                            </xsl:if> 
+                           
+                           <xsl:element name="NK1.4.1">
+                              <xsl:value-of select="''"/> 
+                           </xsl:element>
                         </xsl:when>
                         
-                        <xsl:when test="substring(./$setID,4,4) = '3' or ./$setID='3'">
-                           <xsl:element name="NK1.3.1">
-                              <xsl:value-of select="'EMC'"/> 
-                           </xsl:element>
+                        <xsl:when test="$familyIdFirst = 'SOEUR' or $familyIdSecond = 'SOEUR'">
+                                      <xsl:element name="NK1.3.1">
+                                         <xsl:value-of select="'EMC'"/> 
+                                      </xsl:element>
                         
                            <xsl:if test="$kinTelephoneNumber != ''">   
                                       <xsl:element name="NK1.5.1">
                                          <xsl:value-of select="$kinTelephoneNumber"/> 
                                       </xsl:element>
                            </xsl:if>
+                           
+                           <xsl:element name="NK1.4.1">
+                              <xsl:value-of select="''"/> 
+                           </xsl:element>
                         </xsl:when>
                         
-                        <xsl:when test="substring(./$setID,4,4) = '4' or ./$setID='4'"> 
+                        <xsl:when test="$familyIdFirst = 'MERE' and $familyIdSecond ='MERE'"> 
                            <xsl:element name="NK1.3.1">
                               <xsl:value-of select="'MTH'"/> 
                            </xsl:element>
@@ -595,16 +616,26 @@
                                        <xsl:element name="NK1.5.1">
                                             <xsl:value-of select="$kinTelephoneNumber"/> 
                                        </xsl:element>
-                           </xsl:if>  
+                           </xsl:if>
+                           
+                           <xsl:element name="NK1.4.1">
+                              <xsl:value-of select="''"/> 
+                           </xsl:element>
                         </xsl:when>
                         
-                        <xsl:when test="substring(./$setID,4,4) = '5' or ./$setID='5'">
+                        <xsl:otherwise> 
+                           <!-- family ties -->
                            <xsl:element name="NK1.3.1">
-                              <xsl:value-of select="'EMR'"/> 
+                                  <xsl:value-of select="''"/>
                            </xsl:element>
                            
+                           <xsl:if test="$kinTelephoneNumber != ''">   
+                              <xsl:element name="NK1.5.1">
+                                 <xsl:value-of select="$kinTelephoneNumber"/> 
+                              </xsl:element>
+                           </xsl:if>  
+                           
                            <xsl:if test="($sendingApplicationName = 'MedUrge')">
-                              
                            <xsl:element name="NK1.4.1">
                               <xsl:value-of select="./NK1.4.1"/> 
                            </xsl:element>
@@ -619,16 +650,10 @@
       
                            <xsl:element name="NK1.5.1">
                                  <xsl:value-of select="./NK1.5.1"/> 
-                           </xsl:element>
-                              
-                           </xsl:if>  
-                        </xsl:when>      
+                           </xsl:element>   
+                           </xsl:if>
+                        </xsl:otherwise> 
                      </xsl:choose>
-                  
-                  <xsl:element name="NK1.4.1">
-                     <xsl:value-of select="''"/> 
-                  </xsl:element>
-                  
                   </xsl:element> 
              
           </xsl:for-each>      

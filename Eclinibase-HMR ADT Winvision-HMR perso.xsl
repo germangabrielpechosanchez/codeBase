@@ -600,28 +600,35 @@
          <xsl:element name="PV1.4.1">
             <xsl:value-of select="/HL7/PV1/PV1.18.1"/> 
          </xsl:element>
-         
          <!--     afficher docteur or non -->
          <!--     <xsl:if test="/HL7/PV1/PV1.8.1 != '' or /HL7/PV1/PV1.8.2 != '' or /HL7/PV1/PV1.17.1 != ''"> -->
          
-         <xsl:if test="/HL7/PV1/PV1.18.1 != '1'">   
+         <!--     attending doctor -->
+         <xsl:variable name="patientType" select="/HL7/PV1/PV1.18.1" />
+         
+         <xsl:if test="(($patientType = '1' or $patientType = '27') and $messageType = 'A01') or $messageType = 'A02' or $messageType = 'A03' or $messageType = 'A12' or $messageType = 'A23'">
+            
               <xsl:element name="PV1.7.1">
                  <xsl:value-of select="/HL7/PV1/PV1.7.1"/> 
               </xsl:element>
+              
               
               <xsl:element name="PV1.7.2">
                  <xsl:value-of select="substring-before(/HL7/PV1/PV1.7.2,',')"/> 
               </xsl:element>
               
+              
               <xsl:element name="PV1.7.3">
                  <xsl:value-of select="substring-after(/HL7/PV1/PV1.7.2,',')"/> 
               </xsl:element>
+              
               
               <xsl:element name="PV1.7.7">
                     <xsl:if test="(/HL7/PV1/PV1.7.2 != '')">
                        <xsl:value-of select="'MD'"/>    
                     </xsl:if>
               </xsl:element>
+            
          </xsl:if>
          
          <xsl:variable name="hospitalService" select="/HL7/PV1/PV1.10.1" />
@@ -1198,6 +1205,7 @@
          
          <xsl:variable name="dischargeDisposition" select="/HL7/PV1/PV1.36.1" />
          
+        <xsl:if test="$dischargeDisposition != ''"> 
          <xsl:element name="PV1.36.1">  
             <xsl:choose> 
                     <xsl:when test="$dischargeDisposition ='2'">  
@@ -1233,7 +1241,7 @@
                </xsl:when>
             </xsl:choose>
          </xsl:element> 
-         
+         </xsl:if>  
          
          <xsl:element name="PV1.44.1">   
             <xsl:value-of select="/HL7/PV1/PV1.44.1"/> 
@@ -1312,7 +1320,11 @@
             
             <xsl:when test="($citizenship = '2')"> 
                <xsl:value-of select="'2'"/>
-            </xsl:when> 
+            </xsl:when>
+            
+            <xsl:when test="($citizenship = '11')"> 
+               <xsl:value-of select="'11'"/>
+            </xsl:when>       
          </xsl:choose>
       </xsl:element>
       
@@ -1329,6 +1341,11 @@
             <xsl:when test="($citizenship = '2')"> 
                <xsl:value-of select="'IMMIGRANT RECU'"/>
             </xsl:when> 
+            
+            <xsl:when test="($citizenship = '11')"> 
+               <xsl:value-of select="'INCONNU'"/>
+            </xsl:when>       
+            
          </xsl:choose>
       </xsl:element> 
          
