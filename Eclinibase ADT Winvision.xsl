@@ -491,8 +491,25 @@
             <!-- Birth place -->
             <xsl:element name="PID.23.1">
                <xsl:variable name="birthPlace" select="/HL7/PID/PID.23.1" />  
+                       
                         <xsl:if test="($birthPlace = 'Québec')">
                             <xsl:value-of select="'1'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Nouveau-Brunswick')">
+                           <xsl:value-of select="'3'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Pologne')">
+                           <xsl:value-of select="'8'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Hongrie')">
+                           <xsl:value-of select="'10'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Roumanie')">
+                           <xsl:value-of select="'11'"/>
                         </xsl:if>
                
                         <xsl:if test="($birthPlace = 'Haiti')">
@@ -503,9 +520,41 @@
                            <xsl:value-of select="'12'"/>
                         </xsl:if>
                
-                        <xsl:if test="($birthPlace = 'Rwanda')">
-                            <xsl:value-of select="'12'"/>
+                        <xsl:if test="($birthPlace = 'Grèce')">
+                           <xsl:value-of select="'13'"/>
                         </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Allemagne')">
+                            <xsl:value-of select="'14'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Autres pays')">
+                            <xsl:value-of select="'16'"/>
+                        </xsl:if>
+ 
+                        <xsl:if test="($birthPlace = 'Inconnu')">
+                            <xsl:value-of select="'17'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Congo')">
+                            <xsl:value-of select="'23'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Algérie')">
+                           <xsl:value-of select="'27'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Tunisie')">
+                           <xsl:value-of select="'28'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Maroc')">
+                           <xsl:value-of select="'29'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'France')">
+                           <xsl:value-of select="'44'"/>
+                        </xsl:if>             
             </xsl:element> 
             
             <!-- Citizenship -->
@@ -518,12 +567,18 @@
                <xsl:value-of select="''"/>
             </xsl:element> 
             
+            <xsl:if test="$messageType = 'A48' and $eventCode = '119' and /HL7/PID/PID.29.1!=''">
+               <xsl:element name="PID.29.1">
+                   <xsl:value-of select="/HL7/PID/PID.29.1"/>
+               </xsl:element> 
+            </xsl:if>
+            
              <xsl:element name="PID.30.1">
-               <xsl:value-of select="/HL7/PID/PID.30.1"/>
+                  <xsl:value-of select="/HL7/PID/PID.30.1"/>
              </xsl:element> 
             
             <xsl:element name="PID.31.1">
-               <xsl:value-of select="''"/>
+                   <xsl:value-of select="''"/>
             </xsl:element> 
             </xsl:element>    
       </xsl:template>    
@@ -593,7 +648,7 @@
                         
                         <xsl:when test="$familyIdFirst = 'SOEUR' or $familyIdSecond = 'SOEUR'">
                                       <xsl:element name="NK1.3.1">
-                                         <xsl:value-of select="'EMC'"/> 
+                                         <xsl:value-of select="''"/> 
                                       </xsl:element>
                         
                            <xsl:if test="$kinTelephoneNumber != ''">   
@@ -601,10 +656,6 @@
                                          <xsl:value-of select="$kinTelephoneNumber"/> 
                                       </xsl:element>
                            </xsl:if>
-                           
-                           <xsl:element name="NK1.4.1">
-                              <xsl:value-of select="''"/> 
-                           </xsl:element>
                         </xsl:when>
                         
                         <xsl:when test="$familyIdFirst = 'MERE' and $familyIdSecond ='MERE'"> 
