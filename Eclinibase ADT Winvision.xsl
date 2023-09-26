@@ -378,9 +378,14 @@
                
                
             <xsl:if test="($sendingApplicationName = 'eClinibase')">
+               
+               <xsl:variable name="areaCityCodeFirst" select="/HL7/PID/PID.13.6" /> 
+               <xsl:variable name="firstThreeDigits" select="substring(/HL7/PID/PID.13.7,1,3)" />
+               <xsl:variable name="lastDigits" select="substring(/HL7/PID/PID.13.7,4)" /> 
+               
                <xsl:if test="(/HL7/PID/PID.13.6 != '')">
                      <xsl:element name="PID.13.1">
-                        <xsl:value-of select="concat('(',/HL7/PID/PID.13.6,')','-',/HL7/PID/PID.13.7)"/>
+                        <xsl:value-of select="concat('(',$areaCityCodeFirst,')',$firstThreeDigits,'-',$lastDigits)"/>
                      </xsl:element> 
                      
                      <xsl:element name="PID.13.2">
@@ -394,12 +399,15 @@
             </xsl:if>
             
             
-            <xsl:if test="($sendingApplicationName = 'eClinibase')">     
-            <xsl:variable name="areaCityCode" select="/HL7/PID/PID.14.6" /> 
+            <xsl:if test="($sendingApplicationName = 'eClinibase')">  
+               
+            <xsl:variable name="areaCityCodeFirstw" select="/HL7/PID/PID.14.6" /> 
+            <xsl:variable name="firstThreeDigitsw" select="substring(/HL7/PID/PID.14.7,1,3)" />
+            <xsl:variable name="lastDigitsw" select="substring(/HL7/PID/PID.14.7,4)" />
                
                         <xsl:if test="($areaCityCode != '')"> 
                              <xsl:element name="PID.14.1">
-                                <xsl:value-of select="concat('(',$areaCityCode,')','-',/HL7/PID/PID.14.7)"/>
+                                <xsl:value-of select="concat('(',$areaCityCodeFirstw,')',$firstThreeDigitsw,'-',$lastDigitsw)"/>
                              </xsl:element> 
                              
                              <xsl:element name="PID.14.2">
@@ -496,12 +504,20 @@
                             <xsl:value-of select="'1'"/>
                         </xsl:if>
                
+                         <xsl:if test="($birthPlace = 'Ontario')">
+                            <xsl:value-of select="'2'"/>
+                         </xsl:if>
+               
                         <xsl:if test="($birthPlace = 'Nouveau-Brunswick')">
                            <xsl:value-of select="'3'"/>
                         </xsl:if>
                
                         <xsl:if test="($birthPlace = 'Pologne')">
                            <xsl:value-of select="'8'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Rusie')">
+                           <xsl:value-of select="'9'"/>
                         </xsl:if>
                
                         <xsl:if test="($birthPlace = 'Hongrie')">
@@ -536,9 +552,37 @@
                             <xsl:value-of select="'17'"/>
                         </xsl:if>
                
+                        <xsl:if test="($birthPlace = 'Boznie-Herzégovine')">
+                           <xsl:value-of select="'18'"/>
+                       </xsl:if>
+               
+                      <xsl:if test="($birthPlace = 'Croatie')">
+                         <xsl:value-of select="'20'"/>
+                      </xsl:if>
+               
+                      <xsl:if test="($birthPlace = 'Rwanda')">
+                         <xsl:value-of select="'21'"/>
+                      </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Burundi')">
+                           <xsl:value-of select="'21'"/>
+                        </xsl:if>
+               
                         <xsl:if test="($birthPlace = 'Congo')">
                             <xsl:value-of select="'23'"/>
                         </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Afghanistan')">
+                           <xsl:value-of select="'24'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Éthiopie')">
+                           <xsl:value-of select="'25'"/>
+                        </xsl:if>
+               
+                       <xsl:if test="($birthPlace = 'Irak')">
+                          <xsl:value-of select="'26'"/>
+                       </xsl:if>
                
                         <xsl:if test="($birthPlace = 'Algérie')">
                            <xsl:value-of select="'27'"/>
@@ -552,9 +596,31 @@
                            <xsl:value-of select="'29'"/>
                         </xsl:if>
                
+                        <xsl:if test="($birthPlace = 'Sénégal')">
+                           <xsl:value-of select="'30'"/>
+                        </xsl:if>
+                       
+                       <xsl:if test="($birthPlace = 'Iran')">
+                          <xsl:value-of select="'31'"/>
+                       </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Albanie')">
+                           <xsl:value-of select="'32'"/>
+                        </xsl:if>
+                        
+                        <xsl:if test="($birthPlace = 'Chine')">
+                           <xsl:value-of select="'33'"/>
+                        </xsl:if>
+               
+                         <xsl:if test="($birthPlace = 'Viêt Nam')">
+                           <xsl:value-of select="'34'"/>
+                        </xsl:if>
+               
                         <xsl:if test="($birthPlace = 'France')">
                            <xsl:value-of select="'44'"/>
-                        </xsl:if>             
+                        </xsl:if>
+               
+               
             </xsl:element> 
             
             <!-- Citizenship -->
