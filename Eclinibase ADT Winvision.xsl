@@ -512,6 +512,22 @@
                            <xsl:value-of select="'3'"/>
                         </xsl:if>
                
+                        <xsl:if test="($birthPlace = 'Autres provinces ou territoires canadiens')">
+                           <xsl:value-of select="'4'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Etats-Unis')">
+                           <xsl:value-of select="'5'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Angleterre')">
+                           <xsl:value-of select="'6'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Ecosse')">
+                           <xsl:value-of select="'7'"/>
+                        </xsl:if>
+               
                         <xsl:if test="($birthPlace = 'Pologne')">
                            <xsl:value-of select="'8'"/>
                         </xsl:if>
@@ -616,11 +632,29 @@
                            <xsl:value-of select="'34'"/>
                         </xsl:if>
                
-                        <xsl:if test="($birthPlace = 'France')">
-                           <xsl:value-of select="'44'"/>
+                        <xsl:if test="($birthPlace = 'Philippines')">
+                           <xsl:value-of select="'35'"/>
                         </xsl:if>
                
+                        <xsl:if test="($birthPlace = 'Togo')">
+                          <xsl:value-of select="'36'"/>
+                        </xsl:if>
                
+                        <xsl:if test="($birthPlace = 'Colombie')">
+                           <xsl:value-of select="'37'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Salvador')">
+                           <xsl:value-of select="'38'"/>
+                        </xsl:if>
+               
+                        <xsl:if test="($birthPlace = 'Chili')">
+                           <xsl:value-of select="'39'"/>
+                        </xsl:if>
+                        
+                        <xsl:if test="($birthPlace = 'France')">
+                           <xsl:value-of select="'44'"/>
+                        </xsl:if> 
             </xsl:element> 
             
             <!-- Citizenship -->

@@ -1161,7 +1161,7 @@
             </xsl:element> 
          </xsl:if>
          
-         <xsl:if test="($messageType='A03' or $messageType='A02' or $messageType='A01') and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor != $admittingDoctor">
+         <xsl:if test="($messageType='A08' or $messageType='A03' or $messageType='A02' or $messageType='A01') and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor != $admittingDoctor">
             <xsl:element name="PV1.17.1">
                <xsl:value-of select="$admittingDoctor"/> 
             </xsl:element> 
@@ -1178,25 +1178,7 @@
                <xsl:value-of select="'MD'"/> 
             </xsl:element> 
          </xsl:if>
-         
-         <!--    <xsl:if test="/HL7/PV1/PV1.17.1!='' and (/HL7/PV1/PV1.7.1 != /HL7/PV1/PV1.17.1)">      
-            <xsl:element name="PV1.17.1">
-               <xsl:value-of select="/HL7/PV1/PV1.17.1"/> 
-            </xsl:element> 
-            
-            <xsl:element name="PV1.17.2">
-               <xsl:value-of select="substring-before(/HL7/PV1/PV1.17.2,',')"/> 
-            </xsl:element> 
-            
-            <xsl:element name="PV1.17.3">
-               <xsl:value-of select="substring-after(/HL7/PV1/PV1.17.2,',')"/> 
-            </xsl:element> 
-            
-            <xsl:element name="PV1.17.7">
-               <xsl:value-of select="'MD'"/> 
-            </xsl:element> 
-         </xsl:if>   -->  
-         
+              
       <xsl:variable name="patientType" select="/HL7/PV1/PV1.18.1" />
          
          <xsl:element name="PV1.18.1">   
@@ -1390,8 +1372,16 @@
                <xsl:value-of select="'5'"/>
             </xsl:when>
             
+            <xsl:when test="($citizenship = '6')"> 
+               <xsl:value-of select="'6'"/>
+            </xsl:when>
+            
             <xsl:when test="($citizenship = '8')"> 
                <xsl:value-of select="'8'"/>
+            </xsl:when>
+            
+            <xsl:when test="($citizenship = '9')"> 
+               <xsl:value-of select="'9'"/>
             </xsl:when>
             
             <xsl:when test="($citizenship = '11')"> 
@@ -1401,6 +1391,7 @@
       </xsl:element>
       
      <xsl:variable name="visaEmploi">VISA D'EMPLOI</xsl:variable>
+     <xsl:variable name="programmeEchange">PROGRAMME D'ECHANGE</xsl:variable>
          
       <xsl:element name="ZPV.2.2">
          <xsl:choose>
@@ -1428,8 +1419,20 @@
                <xsl:value-of select="'ÉTUDIANT ÉTRANGER'"/>
             </xsl:when> 
             
+            <xsl:when test="($citizenship = '6')"> 
+               <xsl:value-of select="$programmeEchange"/>
+            </xsl:when> 
+            
+            <xsl:when test="($citizenship = '7')"> 
+               <xsl:value-of select="'PERMIS MINISTÉRIEL'"/>
+            </xsl:when> 
+            
             <xsl:when test="($citizenship = '8')"> 
-               <xsl:value-of select="'REGUGIÉ POLITIQUE'"/>
+               <xsl:value-of select="'REFUGIÉ POLITIQUE'"/>
+            </xsl:when> 
+            
+            <xsl:when test="($citizenship = '9')"> 
+               <xsl:value-of select="'DIPLOMATE ET EMPLOYÉS(ES) DE CONSULAT'"/>
             </xsl:when> 
             
             <xsl:when test="($citizenship = '11')"> 
