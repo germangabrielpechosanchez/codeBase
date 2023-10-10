@@ -606,7 +606,7 @@
          <!--     attending doctor -->
          <xsl:variable name="patientType" select="/HL7/PV1/PV1.18.1" />
          
-         <xsl:if test="(($patientType = '1' or $patientType = '27') and $messageType = 'A01') or $messageType = 'A02' or $messageType = 'A03' or $messageType = 'A12' or $messageType = 'A23'">
+         <xsl:if test="(($patientType = '1' or $patientType = '27') and $messageType = 'A01') or $messageType = 'A02' or $messageType = 'A03' or $messageType = 'A12' or $messageType='A13' or $messageType = 'A23'">
               <xsl:element name="PV1.7.1">
                  <xsl:value-of select="/HL7/PV1/PV1.7.1"/> 
               </xsl:element>
@@ -1143,7 +1143,7 @@
             </xsl:element> 
          </xsl:if>
          
-         <xsl:if test="($messageType='A03' or $messageType='A02' or $messageType='A01' or $messageType='A23') and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor = $admittingDoctor">
+         <xsl:if test="($messageType='A13' or $messageType='A03' or $messageType='A02' or $messageType='A01' or $messageType='A23') and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor = $admittingDoctor">
             <xsl:element name="PV1.17.1">
                <xsl:value-of select="$attendingDoctor"/> 
             </xsl:element> 
