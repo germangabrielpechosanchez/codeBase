@@ -371,9 +371,11 @@
                             <xsl:value-of select="'H'"/>
                          </xsl:element>
                          
+               <xsl:if test="/HL7/PID/PID.11.8 != ''">
                          <xsl:element name="PID.11.8">
                             <xsl:value-of select="/HL7/PID/PID.11.8"/>
                          </xsl:element>
+               </xsl:if>
             </xsl:if>     
                
                

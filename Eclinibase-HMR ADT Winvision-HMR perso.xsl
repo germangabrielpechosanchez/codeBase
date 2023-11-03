@@ -164,6 +164,7 @@
       </xsl:variable>  
         
          <xsl:element name="PV1.3.1">
+            <xsl:variable name="salleAccouchement">SALLE D'ACCOUCHEMENT</xsl:variable>
             <xsl:choose> 
                <xsl:when test= "$unitSoins = 'URGENCE' and $sendingApplicationName = 'MedUrge'">  
                   <xsl:value-of select="'Urg'"/> 
@@ -254,7 +255,7 @@
                </xsl:when>  
   
                <xsl:when test= "$unitSoins = 'M7C'">  
-                  <xsl:value-of select="'M7C&amp;SALLE D&quot;ACCOUCHEMENT'"/> 
+                  <xsl:value-of select="concat('M7C&amp;',$salleAccouchement)"/> 
                </xsl:when>  
                
                <xsl:when test= "$unitSoins = 'M7D'">  
@@ -1198,8 +1199,8 @@
       </xsl:element> 
          
          <xsl:element name="PV1.18.2">   
-            <xsl:choose>
-               
+            <xsl:variable name="chirurgieUnJour">Soins en chirurgie d'un jour</xsl:variable>
+            <xsl:choose> 
                <xsl:when test="$patientType ='1'">  
                   <xsl:value-of select="'Soins de courte duree'"/> 
                </xsl:when>
@@ -1209,9 +1210,9 @@
                </xsl:when>  
                
                <xsl:when test="$patientType ='27'">  
-                  <xsl:value-of select="'Soins en chirurgie d&quot;un jour'"/> 
+                  <xsl:value-of select="$chirurgieUnJour"/> 
                </xsl:when>       
-            </xsl:choose>
+           </xsl:choose>
          </xsl:element> 
          
          <xsl:element name="PV1.19.1">   
@@ -1308,7 +1309,7 @@
           </xsl:element>
           
           <xsl:element name="PV2.3.1">
-             <xsl:value-of select="$diagnosisSegment"/>
+             <xsl:value-of select="substring($diagnosisSegment,1,50)"/>
           </xsl:element>
          
          <xsl:element name="PV2.4.1">
