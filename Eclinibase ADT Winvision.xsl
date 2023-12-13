@@ -657,6 +657,10 @@
                         <xsl:if test="($birthPlace = 'France')">
                            <xsl:value-of select="'44'"/>
                         </xsl:if> 
+   
+                        <xsl:if test="($birthPlace = 'Syrienne, République arabe')">
+                           <xsl:value-of select="'46'"/>
+                        </xsl:if> 
             </xsl:element> 
             
             <!-- Citizenship -->
