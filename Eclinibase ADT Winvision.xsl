@@ -514,7 +514,7 @@
                            <xsl:value-of select="'3'"/>
                         </xsl:if>
                
-                        <xsl:if test="($birthPlace = 'Autres provinces ou territoires canadiens')">
+                        <xsl:if test="($birthPlace = 'Autres provinces ou territoire')">
                            <xsl:value-of select="'4'"/>
                         </xsl:if>
                
