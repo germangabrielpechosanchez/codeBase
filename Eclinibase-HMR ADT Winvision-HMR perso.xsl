@@ -190,7 +190,7 @@
                   <xsl:value-of select="'M2C&amp;UNITE CORONARIENNE'"/> 
                </xsl:when>
                
-               <xsl:when test= "$unitSoins = 'M2H0'">  
+               <xsl:when test= "$unitSoins = 'M2HO'">  
                   <xsl:value-of select="'M2HO&amp;CSA 2e ETAGE'"/> 
                </xsl:when>
                
