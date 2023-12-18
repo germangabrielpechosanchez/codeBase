@@ -679,8 +679,16 @@
                </xsl:element> 
             </xsl:if>
             
+            <xsl:variable name="patientDeathIndicator" select="/HL7/PID/PID.30.1" />  
+            
+            <xsl:if test="($patientDeathIndicator = 'Y')">
+               <xsl:element name="PID.29.1">
+                  <xsl:value-of select="/HL7/PID/PID.29.1"/>
+               </xsl:element> 
+            </xsl:if> 
+            
              <xsl:element name="PID.30.1">
-                  <xsl:value-of select="/HL7/PID/PID.30.1"/>
+                  <xsl:value-of select="$patientDeathIndicator"/>
              </xsl:element> 
             
             <xsl:element name="PID.31.1">
