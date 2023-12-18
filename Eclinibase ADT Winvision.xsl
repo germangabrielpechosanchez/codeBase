@@ -534,7 +534,7 @@
                            <xsl:value-of select="'8'"/>
                         </xsl:if>
                
-                        <xsl:if test="($birthPlace = 'Rusie')">
+                        <xsl:if test="($birthPlace = 'Russie')">
                            <xsl:value-of select="'9'"/>
                         </xsl:if>
                
