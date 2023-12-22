@@ -83,7 +83,7 @@
          <xsl:value-of select="'HMR'"/>
       </xsl:element>
     
-      <xsl:if test="($sendingApplicationName != 'MedUrge')">    
+      <xsl:if test="($sendingApplicationName != 'E')">    
            <xsl:element name="MSH.4.2">
               <xsl:value-of select="'12934659'"/>
            </xsl:element> 
@@ -104,7 +104,7 @@
    
    
    <xsl:template name="MSH.15">
-      <xsl:if test="($sendingApplicationName != 'MedUrge')">
+      <xsl:if test="($sendingApplicationName != 'E')">
             <xsl:element name="MSH.15.1">
                <xsl:value-of select="'NE'"/>
             </xsl:element>   
@@ -112,7 +112,7 @@
    </xsl:template> 
    
    <xsl:template name="MSH.16">
-      <xsl:if test="($sendingApplicationName != 'MedUrge')">   
+      <xsl:if test="($sendingApplicationName != 'E')">   
             <xsl:element name="MSH.16.1">
                <xsl:value-of select="'NE'"/>
             </xsl:element> 
@@ -166,7 +166,7 @@
          <xsl:element name="PV1.3.1">
             <xsl:variable name="salleAccouchement">SALLE D'ACCOUCHEMENT</xsl:variable>
             <xsl:choose> 
-               <xsl:when test= "$unitSoins = 'URGENCE' and $sendingApplicationName = 'MedUrge'">  
+               <xsl:when test= "$unitSoins = 'URG' and $sendingApplicationName = 'E'">  
                   <xsl:value-of select="'Urg'"/> 
                </xsl:when>
                
@@ -370,11 +370,11 @@
          
          <xsl:variable name="roomPavillon">
             <xsl:choose> 
-               <xsl:when test="$sendingApplicationName = 'eClinibase'"> 
+               <xsl:when test="$sendingApplicationName = 'I'"> 
               <xsl:value-of select="substring($roomPatient,1,1)" />
                </xsl:when>
                
-               <xsl:when test="$sendingApplicationName = 'MedUrge'"> 
+               <xsl:when test="$sendingApplicationName = 'E'"> 
                   <xsl:value-of select="'ML'" />
                </xsl:when>
             </xsl:choose>
@@ -557,7 +557,7 @@
          </xsl:element>
          
          <xsl:element name="PV1.3.3">
-            <xsl:if test="($sendingApplicationName = 'eClinibase')">     
+            <xsl:if test="($sendingApplicationName = 'I')">     
             <xsl:choose> 
                <xsl:when test="($messageType != 'A12')"> 
                    <xsl:value-of select="substring-after(/HL7/PV1/PV1.3.3,'-')"/> 
@@ -569,8 +569,8 @@
             </xsl:choose>
             </xsl:if>
             
-            <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
-               <xsl:value-of select="/HL7/PV1/PV1.3.3"/> 
+            <xsl:if test="($sendingApplicationName = 'E')"> 
+               <xsl:value-of select="substring-after(/HL7/PV1/PV1.3.3,'-')"/> 
             </xsl:if>
          </xsl:element>
          
@@ -580,7 +580,7 @@
          
          <xsl:element name="PV1.3.7">
             <xsl:choose>  
-               <xsl:when test= "$unitSoins = 'URGENCE' and $sendingApplicationName = 'MedUrge' and $roomPavillon = 'ML'">
+               <xsl:when test= "$unitSoins = 'URG' and $sendingApplicationName = 'E' and $roomPavillon = 'ML'">
                   <xsl:value-of select="concat('ML','&amp;','Marcel Lamoureaux')"/> 
                </xsl:when>
                
@@ -607,7 +607,7 @@
          <!--     attending doctor -->
          <xsl:variable name="patientType" select="/HL7/PV1/PV1.18.1" />
          
-         <xsl:if test="(($patientType = '1' or $patientType = '27') and $messageType = 'A01') or $messageType = 'A02' or $messageType = 'A03' or $messageType = 'A12' or $messageType='A13' or $messageType = 'A23'">
+         <xsl:if test="((($patientType = '1' or $patientType = '27') and $messageType = 'A01') or $messageType = 'A02' or $messageType = 'A03' or $messageType = 'A12' or $messageType='A13' or $messageType = 'A23') and $sendingApplicationName = 'I'">
               <xsl:element name="PV1.7.1">
                  <xsl:value-of select="/HL7/PV1/PV1.7.1"/> 
               </xsl:element>
@@ -627,11 +627,31 @@
               </xsl:element> 
          </xsl:if>
          
+         <xsl:if test="($messageType = 'A08' and $sendingApplicationName = 'E')">
+            <xsl:element name="PV1.7.1">
+               <xsl:value-of select="/HL7/PV1/PV1.7.1"/> 
+            </xsl:element>
+            
+            <xsl:element name="PV1.7.2">
+               <xsl:value-of select="substring-before(/HL7/PV1/PV1.7.2,',')"/> 
+            </xsl:element>
+            
+            <xsl:element name="PV1.7.3">
+               <xsl:value-of select="substring-after(/HL7/PV1/PV1.7.2,',')"/> 
+            </xsl:element>
+            
+            <xsl:element name="PV1.7.7">
+               <xsl:if test="(/HL7/PV1/PV1.7.2 != '')">
+                  <xsl:value-of select="'MD'"/>    
+               </xsl:if>
+            </xsl:element> 
+         </xsl:if>
+        
          <xsl:variable name="hospitalService" select="/HL7/PV1/PV1.10.1" />
         
          <xsl:element name="PV1.10.1">
             <xsl:choose>
-               <xsl:when test="$hospitalService ='URGENCE' and $sendingApplicationName = 'MedUrge'">  
+               <xsl:when test="$hospitalService ='MURG' and $sendingApplicationName = 'E'">  
                   <xsl:value-of select="'103'"/> 
                </xsl:when>
                
@@ -832,7 +852,7 @@
          <xsl:element name="PV1.10.2">
             <xsl:variable name="medecineUrgence">MÉDECINE D'URGENCE</xsl:variable>
             <xsl:choose>
-               <xsl:when test="$hospitalService ='URGENCE' and $sendingApplicationName = 'MedUrge'">  
+               <xsl:when test="$hospitalService ='MURG' and $sendingApplicationName = 'E'">  
                   <xsl:value-of select="'Urgence'"/> 
                </xsl:when>
                
@@ -1034,8 +1054,10 @@
          
          <xsl:element name="PV1.14.1">  
          <xsl:choose>  
-            <xsl:when test="$sendingApplicationName = 'MedUrge'">  
-               <xsl:value-of select="/HL7/PV1/PV1.14.1"/> 
+            <xsl:when test="$sendingApplicationName = 'E'">  
+               <!-- Sending urgent admission -->
+               <!--<xsl:value-of select="/HL7/PV1/PV1.14.1"/> -->
+               <xsl:value-of select="'1'"/>
             </xsl:when>
             
             <xsl:when test="$admissionType ='1'">  
@@ -1079,7 +1101,7 @@
          <xsl:element name="PV1.14.2"> 
             <xsl:variable name="inscSounDUnJour">INSC. SOUN D'UN JOUR</xsl:variable>
             <xsl:choose>
-               <xsl:when test="$sendingApplicationName = 'MedUrge'">  
+               <xsl:when test="$sendingApplicationName = 'E'">  
                   <xsl:value-of select="''"/> 
                </xsl:when>
                
@@ -1128,7 +1150,7 @@
          <xsl:variable name="admittingDoctor" select="/HL7/PV1/PV1.17.1" />
          <xsl:variable name="attendingDoctor" select="/HL7/PV1/PV1.7.1" />
            
-         <xsl:if test="$messageType='A08' and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor = $admittingDoctor">
+         <xsl:if test="($messageType='A08' and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor = $admittingDoctor) and $sendingApplicationName = 'I'">
             <xsl:element name="PV1.17.1">
                <xsl:value-of select="$attendingDoctor"/> 
             </xsl:element> 
@@ -1146,7 +1168,7 @@
             </xsl:element> 
          </xsl:if>
          
-         <xsl:if test="($messageType='A13' or $messageType='A12' or $messageType='A03' or $messageType='A02' or $messageType='A01' or $messageType='A23') and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor = $admittingDoctor">
+         <xsl:if test="(($messageType='A13' or $messageType='A12' or $messageType='A03' or $messageType='A02' or $messageType='A01' or $messageType='A23') and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor = $admittingDoctor) and $sendingApplicationName= 'I'">
             <xsl:element name="PV1.17.1">
                <xsl:value-of select="$attendingDoctor"/> 
             </xsl:element> 
@@ -1164,7 +1186,7 @@
             </xsl:element> 
          </xsl:if>
          
-         <xsl:if test="($messageType='A08' or $messageType='A03' or $messageType='A02' or $messageType='A01') and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor != $admittingDoctor">
+         <xsl:if test="(($messageType='A08' or $messageType='A03' or $messageType='A02' or $messageType='A01') and $attendingDoctor!='' and $admittingDoctor!='' and $attendingDoctor != $admittingDoctor) and $sendingApplicationName = 'I'">
             <xsl:element name="PV1.17.1">
                <xsl:value-of select="$admittingDoctor"/> 
             </xsl:element> 
@@ -1220,17 +1242,21 @@
          <xsl:element name="PV1.19.1">   
             <xsl:variable name="visitNumber" select="/HL7/PV1/PV1.19.1" />
             <xsl:choose> 
-               <xsl:when test="substring($visitNumber,1,4) ='2010'">  
+               <xsl:when test="substring($visitNumber,1,4) ='2010' and $sendingApplicationName = 'I'">  
                   <xsl:value-of select="concat(substring($visitNumber,3,2), substring($visitNumber,6,5))"/> 
                </xsl:when>    
                
-               <xsl:when test="substring($visitNumber,1,4) ='2011'">  
+               <xsl:when test="substring($visitNumber,1,4) ='2011' and $sendingApplicationName = 'I'">  
                   <xsl:value-of select="concat(substring($visitNumber,3,2), substring($visitNumber,6,5))"/> 
                </xsl:when>    
                
-               <xsl:when test="substring($visitNumber,1,4) ='2012'">  
+               <xsl:when test="substring($visitNumber,1,4) ='2012' and $sendingApplicationName = 'I'">  
                   <xsl:value-of select="concat(substring($visitNumber,3,2), substring($visitNumber,6,5))"/> 
                </xsl:when>  
+               
+               <xsl:when test="$sendingApplicationName = 'E'">  
+                  <xsl:value-of select="/HL7/PV1/PV1.50.1"/> 
+               </xsl:when> 
                
                <xsl:otherwise>  
                   <xsl:value-of select="$visitNumber"/> 
@@ -1292,22 +1318,24 @@
             <xsl:value-of select="/HL7/PV1/PV1.44.1"/> 
          </xsl:element>
          
-         <xsl:element name="PV1.45.1">   
-            <xsl:value-of select="/HL7/PV1/PV1.45.1"/> 
-         </xsl:element>        
-         
-         <xsl:element name="PV1.51.1">   
-            <xsl:value-of select="'V'"/> 
-         </xsl:element>
-     
-         <xsl:element name="PV1.52.1">   
-            <xsl:value-of select="''"/> 
-         </xsl:element>
-         
+         <xsl:if test="$sendingApplicationName = 'I'"> 
+                 <xsl:element name="PV1.45.1">   
+                    <xsl:value-of select="/HL7/PV1/PV1.45.1"/> 
+                 </xsl:element>        
+                 
+                 <xsl:element name="PV1.51.1">   
+                    <xsl:value-of select="'V'"/> 
+                 </xsl:element>
+             
+                 <xsl:element name="PV1.52.1">   
+                    <xsl:value-of select="''"/> 
+                 </xsl:element>
+         </xsl:if> 
       </xsl:element> 
       
       <xsl:variable name="diagnosisSegment" select="/HL7/DG1/DG1.3.2" />
       
+      <xsl:if test="$sendingApplicationName = 'I'"> 
       <xsl:if test="($diagnosisSegment != '')"> 
       <xsl:element name="PV2">
           <xsl:element name="PV2.1.1">
@@ -1324,6 +1352,7 @@
          
       </xsl:element>
      </xsl:if> 
+      </xsl:if> 
    </xsl:template>
    
    <xsl:variable name="mergePatientInformation" select="/HL7/MRG/MRG.2.1" />

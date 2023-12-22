@@ -61,7 +61,7 @@
          </xsl:element>
       </xsl:template>
       
-      <xsl:variable name="sendingApplicationName" select="/HL7/MSH/MSH.3.1" />
+      <xsl:variable name="sendingApplicationName" select="/HL7/PV1/PV1.2.1" />
       
       <xsl:template name="MSH.7">
          <xsl:element name="MSH.7.1">
@@ -141,7 +141,18 @@
               </xsl:choose>
            </xsl:element>
          
-         <xsl:if test="($sendingApplicationName != 'MedUrge')">    
+          <xsl:if test="($sendingApplicationName = 'I')">    
+                 <xsl:element name="EVN.2.1"> 
+                    <xsl:value-of select="/HL7/EVN/EVN.2.1"/>  
+                 </xsl:element>
+                 
+                 <xsl:element name="EVN.6.1"> 
+                    <xsl:value-of select="/HL7/EVN/EVN.6.1"/>  
+                 </xsl:element>  
+         </xsl:if> 
+         
+         
+         <xsl:if test="($sendingApplicationName != 'E')">    
                    <xsl:element name="EVN.2.1"> 
                       <xsl:value-of select="concat(format-number(/HL7/EVN/EVN.2.1,'000000000000'),'01')"/>  
                    </xsl:element>
@@ -150,8 +161,8 @@
                      <xsl:value-of select="concat(format-number(/HL7/EVN/EVN.6.1,'000000000000'),'01')"/>  
                   </xsl:element>  
          </xsl:if> 
-         
-         <xsl:if test="($sendingApplicationName = 'MedUrge')">   
+                
+         <xsl:if test="($sendingApplicationName = 'E')">   
                    <xsl:element name="EVN.2.1"> 
                       <xsl:value-of select="/HL7/EVN/EVN.2.1"/>
                    </xsl:element>
@@ -176,12 +187,12 @@
             </xsl:element>
             
             <xsl:variable name="patientId">
-               <xsl:if test="($sendingApplicationName = 'eClinibase')"> 
+               <xsl:if test="($sendingApplicationName = 'I')"> 
                   <xsl:value-of select="/HL7/ZI1/ZI1.2.1" />
                </xsl:if> 
                
-               <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
-                  <xsl:value-of select="/HL7/PID/PID.4.1" />
+               <xsl:if test="($sendingApplicationName = 'E')"> 
+                  <xsl:value-of select="/HL7/ZI1/ZI1.2.1" />
                </xsl:if>       
             </xsl:variable>
             
@@ -189,7 +200,7 @@
                <xsl:value-of select="$patientId"/>
             </xsl:element>     
             
-            <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
+            <xsl:if test="($sendingApplicationName = 'E')"> 
                <xsl:element name="PID.2.4">  
                   <xsl:value-of select="'RAMQ'"/>
                </xsl:element>
@@ -200,19 +211,19 @@
                   <xsl:value-of select="'NAM'"/>
             </xsl:element>  
                
-            <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
+            <xsl:if test="($sendingApplicationName = 'E')"> 
             <xsl:element name="PID.2.6">  
                   <xsl:value-of select="'CANQC'"/>
             </xsl:element>      
             </xsl:if>         
             
             <xsl:element name="PID.2.8">
-               <xsl:if test="($sendingApplicationName = 'eClinibase')"> 
+             <xsl:if test="($sendingApplicationName = 'I')"> 
                <xsl:value-of select="concat(/HL7/ZI1/ZI1.5.1,'28')"/>
-               </xsl:if>
+             </xsl:if>
                
-             <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
-                  <xsl:variable name="checkDigitSchema" select="/HL7/PID/PID.4.3"/>
+             <xsl:if test="($sendingApplicationName = 'E')"> 
+                <xsl:variable name="checkDigitSchema" select="/HL7/ZI1/ZI1.5.1"/>
                   <xsl:variable name="month" select="substring($checkDigitSchema,5,6)"/>
                 
                   <xsl:variable name="monthsWith30Days" select="'04 06 09 11'"/>
@@ -238,12 +249,12 @@
             <xsl:element name="PID.3.1">
                
                <xsl:variable name="dossierPatient">
-               <xsl:if test="($sendingApplicationName = 'eClinibase')"> 
+               <xsl:if test="($sendingApplicationName = 'I')"> 
                      <xsl:value-of select="/HL7/PID/PID.4.1[1]"/>  
                </xsl:if> 
                
-               <xsl:if test="($sendingApplicationName = 'MedUrge')"> 
-                  <xsl:value-of select="/HL7/PID/PID.3.1"/>  
+               <xsl:if test="($sendingApplicationName = 'E')"> 
+                  <xsl:value-of select="/HL7/PID/PID.4.1[1]"/>  
                </xsl:if>            
                </xsl:variable>
                
@@ -287,10 +298,16 @@
             </xsl:element> 
             
             <!-- date ouverture du dossier -->
-            <xsl:if test="(/HL7/ZI1/ZI1.21.1 != '')"> 
+            <xsl:if test="(/HL7/ZI1/ZI1.21.1 != '') and $sendingApplicationName = 'I'"> 
                       <xsl:element name="PID.3.7">
                          <xsl:value-of select="/HL7/ZI1/ZI1.21.1"/>
                       </xsl:element>
+            </xsl:if>  
+            
+            <xsl:if test="($sendingApplicationName = 'E')"> 
+               <xsl:element name="PID.3.7">
+                  <xsl:value-of select="''"/>
+               </xsl:element> 
             </xsl:if>  
             
             <xsl:element name="PID.4.1">
@@ -379,7 +396,7 @@
             </xsl:if>     
                
                
-            <xsl:if test="($sendingApplicationName = 'eClinibase')">
+            <xsl:if test="($sendingApplicationName = 'I')">
                
                <xsl:variable name="areaCityCodeFirst" select="/HL7/PID/PID.13.6" /> 
                <xsl:variable name="firstThreeDigits" select="substring(/HL7/PID/PID.13.7,1,3)" />
@@ -401,7 +418,7 @@
             </xsl:if>
             
             
-            <xsl:if test="($sendingApplicationName = 'eClinibase')">  
+            <xsl:if test="($sendingApplicationName = 'I')">  
                
             <xsl:variable name="areaCityCodeFirstw" select="/HL7/PID/PID.14.6" /> 
             <xsl:variable name="firstThreeDigitsw" select="substring(/HL7/PID/PID.14.7,1,3)" />
@@ -422,7 +439,7 @@
                         </xsl:if>      
            </xsl:if> 
             
-            <xsl:if test="($sendingApplicationName = 'MedUrge')">
+            <xsl:if test="($sendingApplicationName = 'E')">
                <xsl:variable name="areaCityCode" select="substring(/HL7/PID/PID.13.1,1,3)"/>  
                <xsl:variable name="telephoneNumber" select="substring(/HL7/PID/PID.13.1,4,7)"/> 
                
@@ -681,7 +698,7 @@
             
             <xsl:variable name="patientDeathIndicator" select="/HL7/PID/PID.30.1" />  
             
-            <xsl:if test="($patientDeathIndicator = 'Y')">
+            <xsl:if test="($patientDeathIndicator = 'Y') and $sendingApplicationName = 'I'">
                <xsl:element name="PID.29.1">
                   <xsl:value-of select="/HL7/PID/PID.29.1"/>
                </xsl:element> 
@@ -717,7 +734,7 @@
                   <xsl:variable name="setID" select="./NK1.1.1" /> 
                   
                   <xsl:variable name="kinTelephoneNumber"> 
-                  <xsl:if test="($sendingApplicationName = 'MedUrge') and ./NK1.5.1!=''">
+                  <xsl:if test="($sendingApplicationName = 'E') and ./NK1.5.1!=''">
                      <xsl:value-of select="translate(./NK1.5.1, translate(./NK1.5.1, '0123456789', ''), '')"/> 
                   </xsl:if> 
                   </xsl:variable>
