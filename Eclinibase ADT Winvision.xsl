@@ -141,7 +141,9 @@
               </xsl:choose>
            </xsl:element>
          
-          <xsl:if test="($sendingApplicationName = 'I')">    
+         
+              <!-- Sending Application-->
+              <!--     <xsl:if test="($sendingApplicationName = 'I')">    
                  <xsl:element name="EVN.2.1"> 
                     <xsl:value-of select="/HL7/EVN/EVN.2.1"/>  
                  </xsl:element>
@@ -149,10 +151,10 @@
                  <xsl:element name="EVN.6.1"> 
                     <xsl:value-of select="/HL7/EVN/EVN.6.1"/>  
                  </xsl:element>  
-         </xsl:if> 
+         </xsl:if> -->
          
          
-         <xsl:if test="($sendingApplicationName != 'E')">    
+         <xsl:if test="($sendingApplicationName = 'I') or $messageType = 'A48'">    
                    <xsl:element name="EVN.2.1"> 
                       <xsl:value-of select="concat(format-number(/HL7/EVN/EVN.2.1,'000000000000'),'01')"/>  
                    </xsl:element>
@@ -178,7 +180,6 @@
         </xsl:element> 
       </xsl:template>      
      
-          
       <xsl:template name="PID">
          <xsl:element name="PID">
             
@@ -191,7 +192,7 @@
                   <xsl:value-of select="/HL7/ZI1/ZI1.2.1" />
                </xsl:if> 
                
-               <xsl:if test="($sendingApplicationName = 'E')"> 
+               <xsl:if test="($sendingApplicationName = 'E' and $messageType = 'A08') or ($sendingApplicationName = 'E' and $messageType = 'A04')"> 
                   <xsl:value-of select="/HL7/ZI1/ZI1.2.1" />
                </xsl:if>       
             </xsl:variable>
@@ -249,7 +250,7 @@
             <xsl:element name="PID.3.1">
                
                <xsl:variable name="dossierPatient">
-               <xsl:if test="($sendingApplicationName = 'I')"> 
+               <xsl:if test="($sendingApplicationName = 'I' or $messageType = 'A48')"> 
                      <xsl:value-of select="/HL7/PID/PID.4.1[1]"/>  
                </xsl:if> 
                
@@ -396,7 +397,7 @@
             </xsl:if>     
                
                
-            <xsl:if test="($sendingApplicationName = 'I')">
+            <xsl:if test="($sendingApplicationName = 'I' or $messageType = 'A48')">
                
                <xsl:variable name="areaCityCodeFirst" select="/HL7/PID/PID.13.6" /> 
                <xsl:variable name="firstThreeDigits" select="substring(/HL7/PID/PID.13.7,1,3)" />
@@ -418,7 +419,7 @@
             </xsl:if>
             
             
-            <xsl:if test="($sendingApplicationName = 'I')">  
+            <xsl:if test="($sendingApplicationName = 'I' or $messageType = 'A48')">  
                
             <xsl:variable name="areaCityCodeFirstw" select="/HL7/PID/PID.14.6" /> 
             <xsl:variable name="firstThreeDigitsw" select="substring(/HL7/PID/PID.14.7,1,3)" />
@@ -440,11 +441,14 @@
            </xsl:if> 
             
             <xsl:if test="($sendingApplicationName = 'E')">
-               <xsl:variable name="areaCityCode" select="substring(/HL7/PID/PID.13.1,1,3)"/>  
-               <xsl:variable name="telephoneNumber" select="substring(/HL7/PID/PID.13.1,4,7)"/> 
+               
+               <!-- telephone number -->
+               <!--  <xsl:variable name="areaCityCode" select="substring(/HL7/PID/PID.13.1,2,3)"/>  -->
+               <!--    <xsl:variable name="telephoneNumber" select="substring(/HL7/PID/PID.13.1,5,7)"/> -->
                
                <xsl:element name="PID.13.1">
-                  <xsl:value-of select="concat('(',$areaCityCode,')',$telephoneNumber)"/>
+                  <!--   <xsl:value-of select="concat('(',$areaCityCode,')',$telephoneNumber)"/>-->
+                  <xsl:value-of select="/HL7/PID/PID.13.1"/>
                </xsl:element>
                
                <xsl:element name="PID.13.2">

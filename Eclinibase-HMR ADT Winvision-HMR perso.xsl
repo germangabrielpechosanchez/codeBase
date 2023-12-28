@@ -548,10 +548,14 @@
                          </xsl:when>
                   </xsl:choose>  
                </xsl:when>
-               
+             
+            <xsl:when test="($roomPavillon = 'ML') and ($roomPatient = '')">  
+               <xsl:value-of select="'CUBE'"/>
+            </xsl:when>
+                
             <xsl:otherwise>
                <xsl:value-of select="concat(concat($roomPavillon,' '), substring($roomPatient,2,4))"/> 
-            </xsl:otherwise>
+            </xsl:otherwise>   
                
             </xsl:choose>      
          </xsl:element>
@@ -1056,8 +1060,7 @@
          <xsl:choose>  
             <xsl:when test="$sendingApplicationName = 'E'">  
                <!-- Sending urgent admission -->
-               <!--<xsl:value-of select="/HL7/PV1/PV1.14.1"/> -->
-               <xsl:value-of select="'1'"/>
+               <xsl:value-of select="/HL7/PV1/PV1.15.1"/> 
             </xsl:when>
             
             <xsl:when test="$admissionType ='1'">  
@@ -1098,13 +1101,13 @@
          </xsl:choose>
          </xsl:element> 
    
+         <xsl:choose> 
+         
+         <xsl:when test="$sendingApplicationName = 'I'"> 
          <xsl:element name="PV1.14.2"> 
             <xsl:variable name="inscSounDUnJour">INSC. SOUN D'UN JOUR</xsl:variable>
             <xsl:choose>
-               <xsl:when test="$sendingApplicationName = 'E'">  
-                  <xsl:value-of select="''"/> 
-               </xsl:when>
-               
+        
                <xsl:when test="$admissionType ='1'">  
                   <xsl:value-of select="'ADMISSION URGENTE'"/> 
                </xsl:when>
@@ -1142,6 +1145,8 @@
                </xsl:when>      
             </xsl:choose>
          </xsl:element> 
+         </xsl:when>  
+         </xsl:choose>
          
          <xsl:element name="PV1.16.1">
             <xsl:value-of select="'0'"/> 
@@ -1222,6 +1227,8 @@
          </xsl:choose>
       </xsl:element> 
          
+         
+         <xsl:if test="$sendingApplicationName = 'I'">
          <xsl:element name="PV1.18.2">   
             <xsl:variable name="chirurgieUnJour">Soins en chirurgie d'un jour</xsl:variable>
             <xsl:choose> 
@@ -1238,6 +1245,8 @@
                </xsl:when>       
            </xsl:choose>
          </xsl:element> 
+         </xsl:if>
+         
          
          <xsl:element name="PV1.19.1">   
             <xsl:variable name="visitNumber" select="/HL7/PV1/PV1.19.1" />
@@ -1291,7 +1300,7 @@
             </xsl:choose>
          </xsl:element> 
          
-           <xsl:if test="$dischargeDisposition = 2 or $dischargeDisposition = 4 or $dischargeDisposition = 1"> 
+           <xsl:if test="$dischargeDisposition = '2' or $dischargeDisposition = '4' or $dischargeDisposition = '1'"> 
                  <xsl:element name="PV1.36.2">  
                     <xsl:choose> 
                        <xsl:when test="$dischargeDisposition ='2'">  
@@ -1480,19 +1489,31 @@
          
       <xsl:element name="ZPV.3.1">
             <xsl:value-of select="''"/> 
-      </xsl:element> -->  
+      </xsl:element> 
       
-      <xsl:if test="(/HL7/ZV1/ZV1.22.1 != '')">   
+      <xsl:if test="(/HL7/ZV1/ZV1.22.1 != '') and $sendingApplicationName = 'I'">   
               <xsl:element name="ZPV.4.1">
                     <xsl:value-of select="/HL7/ZV1/ZV1.22.1"/> 
               </xsl:element>
       </xsl:if>
          
-      <xsl:if test="(/HL7/PV1/PV1.20.1 != '')">   
+      <xsl:if test="$sendingApplicationName = 'E'">   
+            <xsl:element name="ZPV.4.1">
+               <xsl:value-of select="''"/> 
+            </xsl:element>
+      </xsl:if>
+         
+      <xsl:if test="(/HL7/PV1/PV1.20.1 != '' and $sendingApplicationName = 'I')">   
             <xsl:element name="ZPV.5.1">
                <xsl:value-of select="/HL7/PV1/PV1.20.1"/> 
             </xsl:element>
       </xsl:if>
+         
+      <xsl:if test="$sendingApplicationName = 'E'">   
+            <xsl:element name="ZPV.5.1">
+               <xsl:value-of select="'1'"/> 
+            </xsl:element>
+     </xsl:if>
          
          <!--   <xsl:element name="ZPV.6.1">
             <xsl:value-of select="''"/> 
@@ -1512,7 +1533,6 @@
            <xsl:element name="ZPV.12.1">
               <xsl:value-of select="''"/> 
            </xsl:element>
-         
       </xsl:if>
                 
       </xsl:element>
