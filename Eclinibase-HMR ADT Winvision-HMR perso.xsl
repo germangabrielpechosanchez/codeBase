@@ -83,7 +83,7 @@
          <xsl:value-of select="'HMR'"/>
       </xsl:element>
     
-      <xsl:if test="($sendingApplicationName != 'E')">    
+      <xsl:if test="($sendingApplicationName != 'E') or ($messageType = 'A48')">    
            <xsl:element name="MSH.4.2">
               <xsl:value-of select="'12934659'"/>
            </xsl:element> 
@@ -104,7 +104,7 @@
    
    
    <xsl:template name="MSH.15">
-      <xsl:if test="($sendingApplicationName != 'E')">
+      <xsl:if test="($sendingApplicationName != 'E') or ($messageType = 'A48')">
             <xsl:element name="MSH.15.1">
                <xsl:value-of select="'NE'"/>
             </xsl:element>   
@@ -112,7 +112,7 @@
    </xsl:template> 
    
    <xsl:template name="MSH.16">
-      <xsl:if test="($sendingApplicationName != 'E')">   
+      <xsl:if test="($sendingApplicationName != 'E') or ($messageType = 'A48')">   
             <xsl:element name="MSH.16.1">
                <xsl:value-of select="'NE'"/>
             </xsl:element> 
