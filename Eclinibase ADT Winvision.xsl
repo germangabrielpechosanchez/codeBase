@@ -166,11 +166,11 @@
                 
          <xsl:if test="($sendingApplicationName = 'E')">   
                    <xsl:element name="EVN.2.1"> 
-                      <xsl:value-of select="/HL7/EVN/EVN.2.1"/>
+                      <xsl:value-of select="concat(/HL7/EVN/EVN.2.1,'00')"/>
                    </xsl:element>
             
                    <xsl:element name="EVN.6.1"> 
-                      <xsl:value-of select="/HL7/EVN/EVN.2.1"/>
+                      <xsl:value-of select="concat(/HL7/EVN/EVN.2.1,'00')"/>
                    </xsl:element>  
          </xsl:if>
               

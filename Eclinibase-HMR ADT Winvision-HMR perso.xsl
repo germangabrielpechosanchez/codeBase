@@ -1324,7 +1324,16 @@
          </xsl:if>  
          
          <xsl:element name="PV1.44.1">   
-            <xsl:value-of select="/HL7/PV1/PV1.44.1"/> 
+            <xsl:variable name="admitDateTime" select="/HL7/PV1/PV1.44.1" />
+            <xsl:choose> 
+               <xsl:when test="$sendingApplicationName ='E'">  
+                  <xsl:value-of select="concat($admitDateTime,'00')"/>
+               </xsl:when>
+               
+               <xsl:when test="$sendingApplicationName ='I'">  
+                  <xsl:value-of select="$admitDateTime"/>
+               </xsl:when>
+            </xsl:choose>
          </xsl:element>
          
          <xsl:if test="$sendingApplicationName = 'I'"> 
